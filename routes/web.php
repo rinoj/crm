@@ -16,14 +16,15 @@ Route::get('/', function () {
 		return redirect()->route('login');
 });
 
-Auth::routes();
+Auth::routes(['register' => false]);
 
-Route::get('/home', 'HomeController@index')->name('home');
-
-Route::get('/test', 'HomeController@test')->name('test');
 
 //Route::resource('leads', 'Lead\LeadController');
 
 Route::get('leads', 'Lead\LeadController@index');
 Route::post('leads', 'Lead\LeadController@store');
 Route::get('leads/{id}/edit', 'Lead\LeadController@edit');
+Route::get('/', 'HomeController@index')->name('index');
+
+
+Route::resource('users', 'UserController');

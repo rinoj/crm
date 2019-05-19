@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'title' => 'CRM',
+    'title' => 'VNT',
 
     'title_prefix' => '',
 
@@ -58,7 +58,7 @@ return [
     |
     */
 
-    'layout' => null,
+    'layout' => 'fixed',
 
     /*
     |--------------------------------------------------------------------------
@@ -85,7 +85,7 @@ return [
     |
     */
 
-    'dashboard_url' => 'home',
+    'dashboard_url' => '/',
 
     'logout_url' => 'logout',
 
@@ -115,11 +115,40 @@ return [
             'icon' => 'users',
         ],
         [
+            'text'        => 'Dashboard',
+            'url'         => '/',
+            'icon'        => 'home',
+        ],
+        [
+            'text'        => 'Leads',
+            'url'         => 'leads',
+            'icon'        => 'users',
+        ],
+        [
+            'text'        => 'Appointments',
+            'url'         => 'appointments',
+            'icon'        => 'calendar',
+        ],
+        [
             'text'        => 'Pages',
             'url'         => 'admin/pages',
             'icon'        => 'file',
             'label'       => 4,
             'label_color' => 'success',
+        ],
+        [
+            'text'    => 'Admin',
+            'icon'    => 'share',
+            'submenu' => [
+                [
+                    'text' => 'Users',
+                    'url'  => 'users',
+                ],
+                [
+                    'text' => 'Settings',
+                    'url'  => '#',
+                ],
+            ],
         ],
         'ACCOUNT SETTINGS',
         [
