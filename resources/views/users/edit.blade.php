@@ -32,6 +32,25 @@
 	                {!! Form::text('email', $user->email,['class' => 'form-control', 'rows'=>'4']) !!}
 				</div>
 
+				<div class='form-group'>
+					<label>Role:</label>
+					<br>
+			        @foreach ($roles as $role)
+							<input type="checkbox" name="roles[]" value="{{ $role->id }}" @if($user->roles->contains($role)) checked @endif>
+						    
+						    <div class="btn-group">
+								<div class="btn-group">
+									<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
+										{{ ucfirst($role->name) }} <span class="caret"></span></button>
+									<ul class="dropdown-menu" role="menu">
+										<li class="danger"><a href="{{ URL::to('roles/'.$role->id.'/edit') }}">Edit Role</a></li>
+									</ul>
+								</div>
+							</div>
+
+					@endforeach
+			    </div>
+
 				<a href="{{route('users.index')}}" class="btn btn-default"><i class="fa fa-arrow-left"></i> Go Back</a>
 				<button class="btn btn-primary " type="submit"><span class="glyphicon glyphicon-ok"></span> Edit</button>
 	    {!! Form::close()!!}

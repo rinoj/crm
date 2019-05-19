@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\User;
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
+use Auth;
 
 class UserController extends Controller
 {
@@ -59,7 +62,8 @@ class UserController extends Controller
     public function edit($id)
     {
         $user = User::find($id);
-        return view('users.edit')->withUser($user);
+        $roles = Role::get(); //Get all roles
+        return view('users.edit')->withUser($user)->withRoles($roles);
     }
 
     /**
@@ -72,7 +76,17 @@ class UserController extends Controller
     public function update(Request $request, $id)
     {
         $user = User::find($id);
+        $roles = $request['roles']; //Retreive all roles
         $user->update($request->all());
+
+        //dd($roles);
+        if (isset($roles)) {        
+            $user->roles()->sync($roles);  //If one or more role is selected associate user to roles          
+        }        
+        else {
+            $user->roles()->detach(); //If no role is selected remove exisiting role associated to a user
+        }
+
         return redirect()->back();
     }
 
