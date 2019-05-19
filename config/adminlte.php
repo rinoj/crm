@@ -110,11 +110,6 @@ return [
     'menu' => [
         'MAIN NAVIGATION',
         [
-            'text' => 'Leads',
-            'url'  => 'leads',
-            'icon' => 'users',
-        ],
-        [
             'text'        => 'Dashboard',
             'url'         => '/',
             'icon'        => 'home',
@@ -145,6 +140,14 @@ return [
                     'url'  => 'users',
                 ],
                 [
+                    'text' => 'Roles',
+                    'url'  => 'roles',
+                ],
+                [
+                    'text' => 'Permissions',
+                    'url'  => 'permissions',
+                ],
+                [
                     'text' => 'Settings',
                     'url'  => '#',
                 ],
@@ -159,11 +162,6 @@ return [
         [
             'text' => 'Change Password',
             'url'  => 'admin/settings',
-            'icon' => 'lock',
-        ],
-        [
-            'text' => 'Test',
-            'url'  => 'test',
             'icon' => 'lock',
         ],
         'LABELS',

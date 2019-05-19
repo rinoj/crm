@@ -43,7 +43,7 @@ class LeadController extends Controller
         $user   =   Lead::updateOrCreate(['id' => $userId],
                     ['name' => $request->name, 'email' => $request->email]);
     
-        return response()->json(['user' => $user], 200);
+        return response()->json($user);
     }
 
     /**
