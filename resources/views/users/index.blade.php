@@ -6,7 +6,19 @@
     Users
 @stop
 @section('content')
-
+<div class="row">
+    <div class="col-md-4">
+        <div class="info-box">
+          <!-- Apply any bg-* class to to the icon to color it -->
+          <span class="info-box-icon bg-default"><i class="fa fa-users"></i></span>
+          <div class="info-box-content">
+            <span class="info-box-text">Users</span>
+            <span class="info-box-number">{{$users->count()}}</span>
+          </div>
+          <!-- /.info-box-content -->
+        </div>
+    </div>
+</div>
 <div class="row">
 	<div class="col-md-12">
 	@section('boxcontent')

@@ -15,6 +15,9 @@
         Edit {{$role->name}}
     @endsection
     
+    @section('boxtitleright')
+    <a href="{{ URL::to('roles') }}" class="btn btn-success">Roles</a>
+    @endsection
     <div class='col-lg-12 '>
 
         {{ Form::model($role, array('route' => array('roles.update', $role->id), 'method' => 'PUT')) }}
@@ -40,7 +43,6 @@
     @endsection
 
     @section('boxfooter')
-    <a href="{{ URL::to('roles') }}" class="btn btn-success">Roles</a>
     @endsection
     @include('layouts.box')
     </div>

@@ -13,9 +13,10 @@
     <table class="table table-bordered">
     	<thead>
     		<tr>
-    			<th>Role Name</th>
-    			<th>Can</th>
-                <th>Action</th>
+    			<th width="25%">Role Name</th>
+    			<th width="25%">Can</th>
+                <th width="25%">Users</th>
+                <th width="25%">Action</th>
     		</tr>
     	</thead>
     	<tbody>
@@ -25,6 +26,11 @@
                     <td>{{ $role->name }}</td>
 
                     <td>{{ str_replace(array('[',']','"'),'', $role->permissions()->pluck('name')) }}</td>{{-- Retrieve array of permissions associated to a role and convert to string --}}
+                    <td>
+                        @foreach($role->users as $user)
+                            <span class="label label-default label-xs">{{$user->name}}</span>
+                        @endforeach
+                    </td>
                     <td>
                     <a href="{{ URL::to('roles/'.$role->id.'/edit') }}" class="btn btn-info pull-left" style="margin-right: 3px;">Edit</a>
 

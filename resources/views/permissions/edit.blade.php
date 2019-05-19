@@ -12,6 +12,9 @@
     @section('boxtitle')
     	Edit {{$permission->name}}
     @endsection
+    @section('boxtitleright')
+    <a href="{{ URL::to('permissions') }}" class="btn btn-success">Permissions</a>
+    @endsection
     @section('boxcontent')
 
     
@@ -33,7 +36,6 @@
     @endsection
 
     @section('boxfooter')
-    <a href="{{ URL::to('permissions') }}" class="btn btn-success">Permissions</a>
     @endsection
     @include('layouts.box')
     </div>
