@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'title' => 'CRM',
+    'title' => 'VNT',
 
     'title_prefix' => '',
 
@@ -110,9 +110,24 @@ return [
     'menu' => [
         'MAIN NAVIGATION',
         [
-            'text' => 'Blog',
+            'text' => 'Bloga',
             'url'  => 'admin/blog',
             'can'  => 'manage-blog',
+        ],
+        [
+            'text'        => 'Dashboard',
+            'url'         => '/',
+            'icon'        => 'home',
+        ],
+        [
+            'text'        => 'Leads',
+            'url'         => 'leads',
+            'icon'        => 'users',
+        ],
+        [
+            'text'        => 'Appointments',
+            'url'         => 'appointments',
+            'icon'        => 'calendar',
         ],
         [
             'text'        => 'Pages',
