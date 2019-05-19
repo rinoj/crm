@@ -58,7 +58,7 @@ return [
     |
     */
 
-    'layout' => null,
+    'layout' => 'fixed',
 
     /*
     |--------------------------------------------------------------------------
@@ -135,6 +135,20 @@ return [
             'icon'        => 'file',
             'label'       => 4,
             'label_color' => 'success',
+        ],
+        [
+            'text'    => 'Admin',
+            'icon'    => 'share',
+            'submenu' => [
+                [
+                    'text' => 'Users',
+                    'url'  => 'users',
+                ],
+                [
+                    'text' => 'Settings',
+                    'url'  => '#',
+                ],
+            ],
         ],
         'ACCOUNT SETTINGS',
         [
