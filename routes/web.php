@@ -19,3 +19,11 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+Route::get('/test', 'HomeController@test')->name('test');
+
+//Route::resource('leads', 'Lead\LeadController');
+
+Route::get('leads', 'Lead\LeadController@index');
+Route::post('leads', 'Lead\LeadController@store');
+Route::get('leads/{id}/edit', 'Lead\LeadController@edit');

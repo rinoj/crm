@@ -110,9 +110,9 @@ return [
     'menu' => [
         'MAIN NAVIGATION',
         [
-            'text' => 'Blog',
-            'url'  => 'admin/blog',
-            'can'  => 'manage-blog',
+            'text' => 'Leads',
+            'url'  => 'leads',
+            'icon' => 'users',
         ],
         [
             'text'        => 'Pages',
@@ -130,6 +130,11 @@ return [
         [
             'text' => 'Change Password',
             'url'  => 'admin/settings',
+            'icon' => 'lock',
+        ],
+        [
+            'text' => 'Test',
+            'url'  => 'test',
             'icon' => 'lock',
         ],
         'LABELS',
