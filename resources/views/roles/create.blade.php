@@ -12,7 +12,7 @@
     @section('boxcontent')
 
     
-    <div class="col-md-6 col-md-offset-3">
+    <div class="col-md-12">
     {{ Form::open(array('url' => 'roles')) }}
 
     <div class="form-group">

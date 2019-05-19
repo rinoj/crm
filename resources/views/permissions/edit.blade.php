@@ -15,7 +15,7 @@
     @section('boxcontent')
 
     
-   <div class='col-lg-4'>
+   <div class='col-lg-12'>
     <br>
     {{ Form::model($permission, array('route' => array('permissions.update', $permission->id), 'method' => 'PUT')) }}{{-- Form model binding to automatically populate our fields with permission data --}}
 

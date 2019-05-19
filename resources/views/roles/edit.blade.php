@@ -15,7 +15,7 @@
         Edit {{$role->name}}
     @endsection
     
-    <div class='col-lg-4 '>
+    <div class='col-lg-12 '>
 
         {{ Form::model($role, array('route' => array('roles.update', $role->id), 'method' => 'PUT')) }}
 

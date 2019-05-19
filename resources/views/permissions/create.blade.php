@@ -12,7 +12,7 @@
     @section('boxcontent')
 
     
-    <div class='col-lg-4'>
+    <div class='col-lg-12'>
 
 
     {{ Form::open(array('url' => 'permissions')) }}

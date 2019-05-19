@@ -10,6 +10,12 @@ use Auth;
 
 class UserController extends Controller
 {
+
+
+    public function __construct()
+    {
+        $this->middleware(['auth','role:admin']); //isAdmin middleware lets only users with a //specific permission permission to access these resources
+    }
     /**
      * Display a listing of the resource.
      *

@@ -24,7 +24,7 @@ Auth::routes(['register' => false]);
 Route::get('leads', 'Lead\LeadController@index');
 Route::post('leads', 'Lead\LeadController@store');
 Route::get('leads/{id}/edit', 'Lead\LeadController@edit');
-Route::get('/', 'HomeController@index')->name('index');
+Route::get('home', 'HomeController@index')->name('index');
 
 
 Route::resource('users', 'UserController');

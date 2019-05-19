@@ -85,7 +85,7 @@ return [
     |
     */
 
-    'dashboard_url' => '/',
+    'dashboard_url' => '/home',
 
     'logout_url' => 'logout',
 
@@ -111,7 +111,7 @@ return [
         'MAIN NAVIGATION',
         [
             'text'        => 'Dashboard',
-            'url'         => '/',
+            'url'         => 'home',
             'icon'        => 'home',
         ],
         [
@@ -133,7 +133,8 @@ return [
         ],
         [
             'text'    => 'Admin',
-            'icon'    => 'share',
+            'icon'    => 'cog',
+            'can'     => 'view-admin',
             'submenu' => [
                 [
                     'text' => 'Users',
