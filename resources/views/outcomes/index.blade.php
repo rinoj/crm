@@ -15,7 +15,7 @@
     		<tr>
     			<th width="25%">ID</th>
     			<th width="25%">Name</th>
-                <th width="25%">ABBR</th>
+                <th width="25%">Abbreviation</th>
                 <th width="25%">Action</th>
     		</tr>
     	</thead>

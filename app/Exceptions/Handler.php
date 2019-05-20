@@ -3,6 +3,7 @@
 namespace App\Exceptions;
 
 use Exception;
+use Auth;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 
 class Handler extends ExceptionHandler
@@ -46,6 +47,37 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
-        return parent::render($request, $exception);
+        if ($this->isHttpException($exception)) {
+
+            if (!Auth::check()) {
+                if ($exception->getStatusCode() == 404) {
+                    return response()->view('errors.404-1', [], 404);
+                }
+                if ($exception->getStatusCode() == 403) {
+                    return response()->view('errors.403-1', [], 403);
+                }
+                if ($exception->getStatusCode() == 500) {
+                    return response()->view('errors.500-1', [], 500);
+                }
+                
+
+            }
+            else
+            {
+                if ($exception->getStatusCode() == 404) {
+                    return response()->view('errors.404', [], 404);
+                }
+                if ($exception->getStatusCode() == 403) {
+                    return response()->view('errors.403', [], 403);
+                }
+                if ($exception->getStatusCode() == 500) {
+                    return response()->view('errors.500', [], 500);
+                }
+            }
+
+
+        }
+
+        //return parent::render($request, $exception);
     }
 }
