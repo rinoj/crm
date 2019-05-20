@@ -2,8 +2,8 @@
 
 @section('title', 'Permissions')
 
-@section('content_header')
-    <h1>Permissions</h1>
+@section('boxtitle')
+    Permissions
 @stop
 @section('content')
 
@@ -36,7 +36,7 @@
         </table>
 	@endsection
 
-	@section('boxtitle')
+	@section('boxtitleright')
     <a href="{{ URL::to('permissions/create') }}" class="btn btn-success">Add Permission</a>
     <a href="{{ route('roles.index') }}" class="btn btn-default">Roles</a></h1>
 	@endsection
