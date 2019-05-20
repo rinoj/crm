@@ -35,6 +35,9 @@ Leads
           <th>Name</th>
           <th>Phone</th>
           <th>Email</th>
+          @if(Auth::user()->isAdmin())
+            <th>Lead of</th>
+          @endif
           <th>Action</th>
         </tr>
       </thead>
@@ -45,8 +48,20 @@ Leads
             <td>{{$lead->name}}</td>
             <td>{{$lead->phone}}</td>
             <td>{{$lead->Email}}</td>
+            @if(Auth::user()->isAdmin())
+                <td>{{$lead->user->name}}</td>
+            @endif
             <td>
-              <a href="#" class="btn btn-success btn-sm"><i class="fa fa-edit"></i> Edit User</a>
+              <div class="btn-group">
+                      <a target="_blank" href="#" class="btn btn-info btn-sm" > Test</a>
+                      <button type="button" class="btn btn-info btn-sm dropdown-toggle" data-toggle="dropdown">
+                        &nbsp;<span class="caret"></span>
+                      </button>
+                      <ul class="dropdown-menu" role="menu">
+                        <li><a href="#"> test</a></li>
+                        
+                      </ul>
+                    </div>
             </td>
           </tr>
         @endforeach

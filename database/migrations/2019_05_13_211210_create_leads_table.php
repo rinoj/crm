@@ -18,8 +18,8 @@ class CreateLeadsTable extends Migration
             $table->string('name');
             $table->string('email');
             $table->string('phone');
-            $table->integer('user_id');
-            $table->integer('category_id');
+            $table->integer('user_id')->nullable();
+            $table->integer('category_id')->nullable();
             $table->timestamps();
         });
     }

@@ -144,6 +144,10 @@ return [
                     'text' => 'Categories',
                     'url'  => 'categories',
                 ],
+                 [
+                    'text' => 'Outcomes',
+                    'url'  => 'outcomes',
+                ],
                 [
                     'text' => 'Roles',
                     'url'  => 'roles',
