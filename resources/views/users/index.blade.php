@@ -5,6 +5,9 @@
 @section('boxtitle')
     Users
 @stop
+@section('boxtitleright')
+    <a href="{{route('users.create')}}" class="btn btn-success">Create User</a>
+@stop
 @section('content')
 <div class="row">
     <div class="col-md-4">
@@ -38,7 +41,9 @@
     				<td>{{$user->name}}</td>
     				<td>{{$user->email}}</td>
     				<td>
-    					<a href="{{route('users.edit', $user->id)}}" class="btn btn-success btn-sm"><i class="fa fa-edit"></i> Edit User</a>
+    					<a href="{{route('users.edit', $user->id)}}" class="btn btn-info pull-left" style="margin-right: 3px;"><i class="fa fa-edit"></i> Edit User</a>
+
+                         
     				</td>
     			</tr>
     		@endforeach

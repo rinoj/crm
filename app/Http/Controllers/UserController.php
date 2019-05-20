@@ -34,7 +34,8 @@ class UserController extends Controller
      */
     public function create()
     {
-        //
+        $roles = Role::all();
+        return view('users.create')->withRoles($roles);
     }
 
     /**
@@ -45,7 +46,19 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $user = new User;
+        $roles = $request['roles']; //Retreive all roles
+        $user->create($request->all());
+
+        //dd($roles);
+        if (isset($roles)) {        
+            $user->roles()->sync($roles);  //If one or more role is selected associate user to roles          
+        }        
+        else {
+            $user->roles()->detach(); //If no role is selected remove exisiting role associated to a user
+        }
+
+        return redirect()->back();
     }
 
     /**
@@ -104,6 +117,10 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $user = User::find($id);
+
+        $user->delete();
+
+        return redirect()->back();
     }
 }

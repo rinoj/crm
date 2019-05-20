@@ -149,8 +149,8 @@ return [
                     'url'  => 'permissions',
                 ],
                 [
-                    'text' => 'Settings',
-                    'url'  => '#',
+                    'text' => 'Categories',
+                    'url'  => 'categories',
                 ],
             ],
         ],

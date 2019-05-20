@@ -1,15 +1,9 @@
 @extends('adminlte::page')
 
-@section('title', $user->name)
+@section('title', 'Create User')
 
 @section('boxtitle')
-    Edit User
-@stop
-
-@section('boxtitleright')
-{!! Form::open(['method' => 'DELETE', 'route' => ['users.destroy', $user->id] ]) !!}
-                         <button type="submit" class="btn btn-danger"><i class="fa fa-remove"></i> Delete</button>
-                        {!! Form::close() !!}
+    Create User
 @stop
 @section('content')
 
@@ -18,31 +12,31 @@
 		@section('boxcontent')
 		    
 		   
-<form method="post" action="{{ route('users.update', $user->id) }}">
+<form method="post" action="{{ route('users.store') }}">
 
- @method('PATCH')
         @csrf
 		    	
-		    	<div class="form-group text-left">
-					<label>ID:</label>
-	                {!! Form::text('id', $user->id,['class' => 'form-control', 'rows'=>'4', 'disabled']) !!}
-				</div>
-
+		    	
 				<div class="form-group text-left">
 					<label>Name:</label>
-	                {!! Form::text('name', $user->name,['class' => 'form-control', 'rows'=>'4']) !!}
+	                {!! Form::text('name', null,['class' => 'form-control', 'rows'=>'4']) !!}
 				</div>
 
 				<div class="form-group text-left">
 					<label>Email:</label>
-	                {!! Form::text('email', $user->email,['class' => 'form-control', 'rows'=>'4']) !!}
+	                {!! Form::email('email', null,['class' => 'form-control', 'rows'=>'4']) !!}
+				</div>
+
+				<div class="form-group text-left">
+					<label>Password:</label>
+	                {!! Form::text('password', null,['class' => 'form-control', 'rows'=>'4']) !!}
 				</div>
 
 				<div class='form-group'>
 					<label>Role:</label>
 					<br>
 			        @foreach ($roles as $role)
-							<input type="checkbox" name="roles[]" value="{{ $role->id }}" @if($user->roles->contains($role)) checked @endif>
+							<input type="checkbox" name="roles[]" value="{{ $role->id }}">
 						    
 						    <div class="btn-group">
 								<div class="btn-group">
@@ -58,7 +52,7 @@
 			    </div>
 
 				<a href="{{route('users.index')}}" class="btn btn-default"><i class="fa fa-arrow-left"></i> Go Back</a>
-				<button class="btn btn-primary " type="submit"><span class="glyphicon glyphicon-ok"></span> Edit</button>
+				<button class="btn btn-primary " type="submit"><span class="glyphicon glyphicon-ok"></span> Create</button>
 	    {!! Form::close()!!}
 
 		@endsection
