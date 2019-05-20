@@ -21,10 +21,6 @@ Auth::routes(['register' => false]);
 
 //Route::resource('leads', 'Lead\LeadController');
 
-Route::get('leads', 'Lead\LeadController@index');
-Route::post('leads', 'Lead\LeadController@store');
-Route::get('leads/{id}/edit', 'Lead\LeadController@edit');
-
 Route::get('home', 'HomeController@index')->name('index');
 
 
@@ -32,3 +28,5 @@ Route::resource('users', 'UserController');
 Route::resource('roles', 'RoleController');
 Route::resource('permissions', 'PermissionController');
 Route::resource('categories', 'CategoryController');
+
+Route::get('leads', 'LeadsController@index');

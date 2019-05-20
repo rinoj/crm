@@ -10,4 +10,17 @@ class Category extends Model
     protected $fillable = [
         'name', 'prefix', 
     ];
+
+    public function leads(){
+        return $this->hasMany('App\Lead');
+    }
+
+    public function users()
+    {
+        return $this->belongsToMany('App\User');
+    }
+
+    public function countleads(){
+        return $this->leads()->count();
+    }
 }

@@ -1,14 +1,10 @@
 <?php
 
-namespace App\Http\Controllers\Lead;
+namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Lead;
-use App\User;
-use Response;
-use App\Http\Controllers\Controller;
-
-class LeadController extends Controller
+class LeadsController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,8 +13,8 @@ class LeadController extends Controller
      */
     public function index()
     {
-        $data['leads'] = Lead::orderBy('id', 'desc')->paginate(3);
-        return view('leads.index', $data);
+        $leads = Lead::paginate(50);
+        return view('leads.index')->withLeads($leads);
     }
 
     /**
@@ -39,11 +35,7 @@ class LeadController extends Controller
      */
     public function store(Request $request)
     {
-        $userId = $request->user_id;
-        $user   =   Lead::updateOrCreate(['id' => $userId],
-                    ['name' => $request->name, 'email' => $request->email]);
-    
-        return response()->json($user);
+        //
     }
 
     /**
@@ -65,10 +57,7 @@ class LeadController extends Controller
      */
     public function edit($id)
     {
-        $where = array('id' => $id);
-        $user  = Lead::where($where)->first();
- 
-        return Response::json($user);
+        //
     }
 
     /**
@@ -91,8 +80,6 @@ class LeadController extends Controller
      */
     public function destroy($id)
     {
-        $lead = Lead::where('id',$id)->delete();
-   
-        return Response::json($lead);
+        //
     }
 }
