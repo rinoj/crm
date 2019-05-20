@@ -112,7 +112,7 @@ return [
         [
             'text'        => 'Dashboard',
             'url'         => 'home',
-            'icon'        => 'home',
+            'icon'        => 'home fa-lg',
         ],
         [
             'text'        => 'Leads',
@@ -141,6 +141,10 @@ return [
                     'url'  => 'users',
                 ],
                 [
+                    'text' => 'Categories',
+                    'url'  => 'categories',
+                ],
+                [
                     'text' => 'Roles',
                     'url'  => 'roles',
                 ],
@@ -148,36 +152,9 @@ return [
                     'text' => 'Permissions',
                     'url'  => 'permissions',
                 ],
-                [
-                    'text' => 'Categories',
-                    'url'  => 'categories',
-                ],
             ],
         ],
-        'ACCOUNT SETTINGS',
-        [
-            'text' => 'Profile',
-            'url'  => 'admin/settings',
-            'icon' => 'user',
-        ],
-        [
-            'text' => 'Change Password',
-            'url'  => 'admin/settings',
-            'icon' => 'lock',
-        ],
-        'LABELS',
-        [
-            'text'       => 'Important',
-            'icon_color' => 'red',
-        ],
-        [
-            'text'       => 'Warning',
-            'icon_color' => 'yellow',
-        ],
-        [
-            'text'       => 'Information',
-            'icon_color' => 'aqua',
-        ],
+        
     ],
 
     /*

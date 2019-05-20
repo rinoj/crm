@@ -8,6 +8,8 @@
 @section('boxtitleright')
     <a href="{{route('users.create')}}" class="btn btn-success">Create User</a>
 @stop
+@section('css')
+@stop
 @section('content')
 <div class="row">
     <div class="col-md-4">
@@ -57,4 +59,6 @@
 	@include('layouts.box')
 	</div>
 </div>
+
+
 @endsection
