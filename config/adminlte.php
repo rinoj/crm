@@ -125,13 +125,6 @@ return [
             'icon'        => 'calendar',
         ],
         [
-            'text'        => 'Pages',
-            'url'         => 'admin/pages',
-            'icon'        => 'file',
-            'label'       => 4,
-            'label_color' => 'success',
-        ],
-        [
             'text'    => 'Admin',
             'icon'    => 'cog',
             'can'     => 'view-admin',
