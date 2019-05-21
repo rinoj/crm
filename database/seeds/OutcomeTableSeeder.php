@@ -12,8 +12,8 @@ class OutcomeTableSeeder extends Seeder
     public function run()
     {
         DB::table('outcomes')->insert([
-            'name' => 'Not Called',
-            'abbr' => 'NC',
+            'name' => 'New Leads',
+            'abbr' => 'NL',
         ]);
         DB::table('outcomes')->insert([
             'name' => 'Needs to be Contacted',
@@ -30,6 +30,16 @@ class OutcomeTableSeeder extends Seeder
         DB::table('outcomes')->insert([
             'name' => 'Invalid Number',
             'abbr' => 'IN',
+        ]);
+
+        DB::table('outcomes')->insert([
+            'name' => 'Potential',
+            'abbr' => 'PO',
+        ]);
+
+        DB::table('outcomes')->insert([
+            'name' => 'First Time Deposit',
+            'abbr' => 'FTD',
         ]);
     }
 }

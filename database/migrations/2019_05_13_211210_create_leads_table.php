@@ -20,6 +20,7 @@ class CreateLeadsTable extends Migration
             $table->string('phone');
             $table->integer('user_id')->nullable();
             $table->integer('category_id')->nullable();
+            $table->integer('outcome_id')->nullable();
             $table->timestamps();
         });
     }

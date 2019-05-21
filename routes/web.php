@@ -29,4 +29,4 @@ Route::resource('roles', 'RoleController');
 Route::resource('permissions', 'PermissionController');
 Route::resource('categories', 'CategoryController');
 Route::resource('outcomes', 'OutcomeController');
-Route::get('leads', 'LeadsController@index');
+Route::get('leads/{category?}/{outcome?}', 'LeadsController@index')->name('leads');

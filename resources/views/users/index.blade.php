@@ -30,7 +30,7 @@
     <table class="table table-bordered">
     	<thead>
     		<tr>
-    			<th>ID</th>
+    			<th style="width: 10px">ID</th>
     			<th>Name</th>
     			<th>Email</th>
     			<th>Action</th>

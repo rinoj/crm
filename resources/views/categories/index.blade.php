@@ -28,7 +28,7 @@
     <table class="table table-bordered">
     	<thead>
     		<tr>
-    			<th>ID</th>
+    			<th style="width: 10px">ID</th>
     			<th>Name</th>
     			<th>Prefix</th>
     			<th>Total Leads</th>
@@ -41,7 +41,7 @@
     				<td>{{$category->id}}</td>
     				<td>{{$category->name}}</td>
     				<td>{{$category->prefix}}</td>
-    				<td></td>
+    				<td>{{$category->leads->count()}}</td>
     				<td>
     					<a href="{{route('categories.edit', $category->id)}}" class="btn btn-info pull-left" style="margin-right: 3px;"><i class="fa fa-edit"></i> Edit Category</a>
 

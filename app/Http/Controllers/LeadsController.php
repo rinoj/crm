@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Lead;
+use App\Category;
+use App\Outcome;
 class LeadsController extends Controller
 {
     /**
@@ -11,10 +13,42 @@ class LeadsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($category_id = null, $outcome_id = null)
     {
-        $leads = Lead::paginate(50);
-        return view('leads.index')->withLeads($leads);
+        if($category_id == 'all' && $outcome_id == null)
+            return redirect()->route('leads');
+        $categories = Category::all();
+        $outcomes = Outcome::all();
+        
+        if($category_id == 'all' && $outcome_id != null){
+            $leads = Lead::where('outcome_id', $outcome_id)->paginate(50);
+        }
+        else if($category_id != null && $outcome_id != null){
+            $leads = Lead::where('category_id', $category_id)->where('outcome_id', $outcome_id)->paginate(50);
+        }
+        else if($category_id != null){
+            $leads = Lead::where('category_id', $category_id)->paginate(50);
+        }
+        else if($outcome_id != null){
+            $leads = Lead::where('outcome_id', $outcome_id)->paginate(50);
+        }
+        else if($category_id == 'all'){
+            $leads = Lead::paginate(50);
+        }
+
+        else{
+            $leads = Lead::paginate(50);
+        }
+
+        
+
+
+        return view('leads.index')
+                ->withLeads($leads)
+                ->withCategories($categories)
+                ->withOutcomes($outcomes)
+                ->with('category_id', $category_id)
+                ->with('outcome_id', $outcome_id);
     }
 
     /**
