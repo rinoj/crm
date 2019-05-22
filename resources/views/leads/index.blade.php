@@ -85,7 +85,7 @@ Leads
                     <td>{{$lead->user != null ? $lead->user->name : "+"}}</td>
                 @endif
                 <td>
-                    <a href="#" class="btn btn-info">{</a>
+                    <a href="#" class="btn btn-default">Comment</a>
                 </td>
                 <td>
                     <div class="btn-group">
@@ -94,6 +94,7 @@ Leads
                             &nbsp;<span class="caret"></span>
                         </button>
                         <ul class="dropdown-menu" role="menu">
+                            <li><a href="#">Set Appointment</a></li>
                             <li><a href="#">Send Mail</a></li>
                             <li><a href="#">Edit Lead</a></li>
                         </ul>
