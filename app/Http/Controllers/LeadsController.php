@@ -3,8 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Lead;
 use Auth;
+use App\Lead;
+use App\User;
 use App\LeadComment;
 use App\Category;
 use App\Outcome;
@@ -21,6 +22,7 @@ class LeadsController extends Controller
             return redirect()->route('leads');
         $categories = Category::all();
         $outcomes = Outcome::all();
+        $users = User::all();
         
         if($category_id == 'all' && $outcome_id != null){
             $leads = Lead::where('outcome_id', $outcome_id)->paginate(50);
@@ -50,7 +52,8 @@ class LeadsController extends Controller
                 ->withCategories($categories)
                 ->withOutcomes($outcomes)
                 ->with('category_id', $category_id)
-                ->with('outcome_id', $outcome_id);
+                ->with('outcome_id', $outcome_id)
+                ->withUsers($users);
     }
 
     /**
@@ -146,6 +149,16 @@ class LeadsController extends Controller
         $lead->outcome_id = $request->outcome_id;
         $lead->update();
         $lead->setOutcome($request->outcome_id);
+
+        return response()->json($lead);
+    }
+
+    public function setLead(Request $request){
+        $lead = Lead::find($request->lead_id);
+        $lead->user_id = $request->user_id;
+        $lead->update();
+
+
 
         return response()->json($lead);
     }

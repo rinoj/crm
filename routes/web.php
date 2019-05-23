@@ -34,3 +34,4 @@ Route::get('leads/{category?}/{outcome?}', 'LeadsController@index')->name('leads
 Route::post('leadcomments/post', 'LeadsController@storeComment')->name('storeComment');
 Route::get('leadcomment/{lead_id}', 'LeadsController@getLeadComments')->name('getleadcomments');
 Route::post('leadoutcome', 'LeadsController@changeOutcome')->name('changeoutcome');
+Route::post('leadset', 'LeadsController@setLead')->name('setlead');

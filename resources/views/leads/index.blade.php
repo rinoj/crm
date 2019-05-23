@@ -82,7 +82,17 @@ Leads
                 <td>{{$lead->phone}}</td>
                 <td>{{$lead->email}}</td>
                 @if(Auth::user()->isAdmin())
-                    <td>{{$lead->user != null ? $lead->user->name : "+"}}</td>
+                    <td>
+                        <select class="setlead selectpicker form-control" id="{{$lead->id}}">
+                        @if($lead->user == null)
+                            <option value="">+</option>
+                        @else
+                            @foreach($users as $agent)
+                                <option value="{{$agent->id}}" {{$agent->id == $lead->user->id ? 'selected' : ''}}>{{$agent->name}}</option>
+                            @endforeach
+                        @endif
+                        </select>
+                    </td>
                 @endif
                 <td>
                     <button type="button" class="comment commentbox{{$lead->id}} btn btn-default btn-block" data-toggle="modal" data-leadid={{$lead->id}} data-target="#myModal">
@@ -95,7 +105,7 @@ Leads
 
                 </td>
                 <td>
-                    <select class="outcomeselect select selectpicker" id="{{$lead->id}}">
+                    <select class="outcomeselect selectpicker" id="{{$lead->id}}">
                         @foreach($outcomes as $outcome)
                             <option value="{{$outcome->id}}" {{$lead->outcome->id == $outcome->id ? 'selected' : ''}}>{{$outcome->name}}</option>
                         @endforeach
@@ -137,6 +147,7 @@ Leads
     </div>
   </div>
 </div>
+
     @section('boxfooter')
         {{$leads->links()}}
     @endsection
@@ -149,11 +160,45 @@ Leads
 @section('js')
 
 <script type="text/javascript">
-$(document).ready(function() {
-  $('#dropdownList li').find("a").click(function(){
+    toastr.options = {
+  "closeButton": false,
+  "debug": false,
+  "newestOnTop": false,
+  "progressBar": false,
+  "positionClass": "toast-top-right",
+  "preventDuplicates": false,
+  "onclick": null,
+  "showDuration": "300",
+  "hideDuration": "1000",
+  "timeOut": "2000",
+  "extendedTimeOut": "1000",
+  "showEasing": "swing",
+  "hideEasing": "linear",
+  "showMethod": "fadeIn",
+  "hideMethod": "fadeOut"
+}
     
-    $('#dropdown-button').html($(this).html()).append("    <span class='caret'></span>");
-  });
+$('.setlead').change(function(e){
+    var lead_id = $(this).attr('id');
+    $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+            }
+        });
+    $.ajax({
+        url: "{{route('setlead')}}",
+        method: 'POST',
+        data: {
+            user_id: $(this).val(),
+            lead_id: $(this).attr('id'),
+        },
+        success: function(data){
+            toastr.success('Lead '+data.name+' has been set to user!');
+        },
+        complete: function(data) {
+            var dt = $.parseJSON(data.responseText)
+        }
+    });
 });
 
 $('.outcomeselect').change(function(e){
@@ -171,7 +216,7 @@ $('.outcomeselect').change(function(e){
             lead_id: $(this).attr('id'),
         },
         success: function(data){
-            // if ( data.error)  alert(data.error);
+            toastr.success('Outcome has been set!');
         },
         complete: function(data) {
             var dt = $.parseJSON(data.responseText)
@@ -193,17 +238,17 @@ $(document).ready(function(){
             }
         });
         $.ajax({
-            url: "{{ url('/leadcomments/post') }}",
+            url: "{{ route('storeComment') }}",
             method: 'post',
             data: {
                 comment: jQuery('#comment').val(),
                 lead_id: $('#lead_id').val(),
             },
             success: function(data){
-                $('#comment').val("");
-                // if ( data.error)  alert(data.error);
             },
             complete: function(data) {
+                $('#comment').val("");
+                toastr.success('Comment has been created!');
                 var dt = $.parseJSON(data.responseText)
                 $('.commentbox'+dt.lead_id).html(dt.comment.substring(0, 30));
             }
@@ -212,7 +257,7 @@ $(document).ready(function(){
 });
 function fetchRecords(id){
     $.ajax({
-        url: 'leadcomment/'+id,
+        url: '/leadcomment/'+id,
         type: 'get',
         dataType: 'json',
         success: function(response){
