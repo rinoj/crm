@@ -32,3 +32,4 @@ Route::resource('outcomes', 'OutcomeController');
 ;
 Route::get('leads/{category?}/{outcome?}', 'LeadsController@index')->name('leads');
 Route::post('leadcomments/post', 'LeadsController@storeComment')->name('storeComment');
+Route::get('leadcomment/{lead_id}', 'LeadsController@getLeadComments')->name('getleadcomments');

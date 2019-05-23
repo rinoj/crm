@@ -119,14 +119,25 @@ class LeadsController extends Controller
         //
     }
 
-    public function storeComment(Request $request){
-        
+    public function getLeadComments($lead_id = 0)
+    {
+        $lead = Lead::find($lead_id);
+        $leadcomments = LeadComment::where('lead_id', $lead_id)->with('user')->orderBy('id', 'desc')->get();
+        $data['data'] = $leadcomments;
+        $data['leadname'] = $lead->name;
+        //dd($leadcomments);
+        echo json_encode($data);
+        exit;
+    }
+
+    public function storeComment(Request $request)
+    {
         $comment = new LeadComment;
         $comment->comment = $request->comment;
         $comment->user_id = Auth::user()->id;
         $comment->lead_id = $request->lead_id;
         $comment->save();
 
-        return response()->json(['success'=>'Data is successfully added']);
+        return response()->json($comment);
     }
 }

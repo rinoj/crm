@@ -70,8 +70,8 @@ Leads
               @if(Auth::user()->isAdmin())
                 <th>Lead of</th>
               @endif
-              <th>Comment</th>
-              <th>Action</th>
+              <th >Comment</th>
+              <th style="width: 200px">Action</th>
             </tr>
           </thead>
           <tbody>
@@ -85,11 +85,18 @@ Leads
                     <td>{{$lead->user != null ? $lead->user->name : "+"}}</td>
                 @endif
                 <td>
-                    <button type="button" class="comment btn btn-default" data-toggle="modal" data-leadid={{$lead->id}} data-target="#myModal">Comment</button>
+                    <button type="button" class="comment commentbox{{$lead->id}} btn btn-default btn-block" data-toggle="modal" data-leadid={{$lead->id}} data-target="#myModal">
+                    @if(!$lead->comments->isEmpty())
+                      {{  substr($lead->comments->last()->comment, 0, 50) }}{{ strlen($lead->comments->last()->comment) > 50 ? "..." : "" }} ({{ $lead->comments->count()}})
+                    @else
+                        Comment
+                    @endif
+                    </button>
 
                 </td>
                 <td>
                     <div class="btn-group">
+
                         <a target="_blank" href="#" class="btn btn-primary btn-sm" >{{$lead->outcome != null ? $lead->outcome->name : "+"}}</a>
                         <button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown">
                             &nbsp;<span class="caret"></span>
@@ -111,7 +118,7 @@ Leads
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">New Category</h4>
+        <h4 class="modal-title" id="myModalLabel">New Comment</h4>
       </div>
       <form id="myform">
             <div class="modal-body">
@@ -122,6 +129,9 @@ Leads
 
                     {!! Form::textarea('comment', null,['id' => 'comment', 'class' => 'form-control', 'rows' => '3']) !!}
                     
+                    <div class="listcomments pre-scrollable">
+                        
+                    </div>
                 </div>
 
             </div>
@@ -146,31 +156,69 @@ Leads
 
 <script type="text/javascript">
 
-         $(document).ready(function(){
-            $('.comment').on('click', function(e) {
-              var modal = $('#myModal');
-                //modal.find('.modal-body #lead_id').val(this.dataset.leadid);
-                $('input[name="lead_id"]').val(this.dataset.leadid);
-                console.log(this.dataset.leadid);
-              });
-            $('#ajaxSubmit').click(function(e){
-               e.preventDefault();
-               $.ajaxSetup({
-                  headers: {
-                      'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
-                  }
-              });
-               $.ajax({
-                  url: "{{ url('/leadcomments/post') }}",
-                  method: 'post',
-                  data: {
-                     comment: jQuery('#comment').val(),
-                     lead_id: $('#lead_id').val(),
-                  },
-                  success: function(result){
-                    $('#comment').val("");
-                  }});
-               });
-            });
+$(document).ready(function(){
+    $('.comment').on('click', function(e) {
+        var modal = $('#myModal');
+        //modal.find('.modal-body #lead_id').val(this.dataset.leadid);
+        $('input[name="lead_id"]').val(this.dataset.leadid);
+        fetchRecords(this.dataset.leadid);
+    });
+    $('#ajaxSubmit').click(function(e){
+        e.preventDefault();
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+            }
+        });
+        $.ajax({
+            url: "{{ url('/leadcomments/post') }}",
+            method: 'post',
+            data: {
+                comment: jQuery('#comment').val(),
+                lead_id: $('#lead_id').val(),
+            },
+            success: function(data){
+                $('#comment').val("");
+                // if ( data.error)  alert(data.error);
+            },
+            complete: function(data) {
+                var dt = $.parseJSON(data.responseText)
+                $('.commentbox'+dt.lead_id).html(dt.comment.substring(0, 30));
+            }
+        });
+    });
+});
+function fetchRecords(id){
+    $.ajax({
+        url: 'leadcomment/'+id,
+        type: 'get',
+        dataType: 'json',
+        success: function(response){
+            var len = 0;
+            $('.listcomments').empty(); // Empty <tbody>
+            if(response['data'] != null){
+                len = response['data'].length;
+            }
+            
+            if(len > 0){
+                for(var i=0; i<len; i++){
+                    var comment = response['data'][i].comment;
+                    var created_at = response['data'][i].created_at;
+                    var user = response['data'][i].user.name;
+                    var cmt = '<div class="box box-primary"><div class="box-header with-border"><div class="boxtitle">'+user+'</div><div class="box-tools pull-right">'+created_at+'</div></div><div class="box-body"><div class="col-md-12" style="word-wrap: break-word;"><p>'+ comment +'</p></div></div></div>';
+                    //var tr_str = "<p>" + comment + "</p>";
+
+                    $(".listcomments").append(cmt);
+                }
+            }
+            else{
+                var tr_str = "<tr>" + "<td align='center' colspan='4'>No record found.</td>" +
+                  "</tr>";
+
+                $(".listcomments").append(tr_str);
+            }
+        }
+    });
+}
 </script>
 @endsection
