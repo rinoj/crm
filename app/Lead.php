@@ -27,4 +27,8 @@ class Lead extends Model
     public function outcome(){
         return $this->belongsTo('App\Outcome');
     }
+
+    public function setOutcome($id){
+        return $this->outcome_id = $id;
+    }
 }

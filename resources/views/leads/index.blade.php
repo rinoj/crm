@@ -95,18 +95,12 @@ Leads
 
                 </td>
                 <td>
-                    <div class="btn-group">
+                    <select class="outcomeselect select selectpicker" id="{{$lead->id}}">
+                        @foreach($outcomes as $outcome)
+                            <option value="{{$outcome->id}}" {{$lead->outcome->id == $outcome->id ? 'selected' : ''}}>{{$outcome->name}}</option>
+                        @endforeach
+                    </select>
 
-                        <a target="_blank" href="#" class="btn btn-primary btn-sm" >{{$lead->outcome != null ? $lead->outcome->name : "+"}}</a>
-                        <button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown">
-                            &nbsp;<span class="caret"></span>
-                        </button>
-                        <ul class="dropdown-menu" role="menu">
-                            <li><a href="#">Set Appointment</a></li>
-                            <li><a href="#">Send Mail</a></li>
-                            <li><a href="#">Edit Lead</a></li>
-                        </ul>
-                    </div>
                 </td>
             </tr>
             @endforeach
@@ -155,7 +149,35 @@ Leads
 @section('js')
 
 <script type="text/javascript">
+$(document).ready(function() {
+  $('#dropdownList li').find("a").click(function(){
+    
+    $('#dropdown-button').html($(this).html()).append("    <span class='caret'></span>");
+  });
+});
 
+$('.outcomeselect').change(function(e){
+    var lead_id = $(this).attr('id');
+    $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+            }
+        });
+    $.ajax({
+        url: "{{route('changeoutcome')}}",
+        method: 'POST',
+        data: {
+            outcome_id: $(this).val(),
+            lead_id: $(this).attr('id'),
+        },
+        success: function(data){
+            // if ( data.error)  alert(data.error);
+        },
+        complete: function(data) {
+            var dt = $.parseJSON(data.responseText)
+        }
+    });
+});
 $(document).ready(function(){
     $('.comment').on('click', function(e) {
         var modal = $('#myModal');

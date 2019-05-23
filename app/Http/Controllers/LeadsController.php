@@ -140,4 +140,13 @@ class LeadsController extends Controller
 
         return response()->json($comment);
     }
+
+    public function changeOutcome(Request $request){
+        $lead = Lead::find($request->lead_id);
+        $lead->outcome_id = $request->outcome_id;
+        $lead->update();
+        $lead->setOutcome($request->outcome_id);
+
+        return response()->json($lead);
+    }
 }
