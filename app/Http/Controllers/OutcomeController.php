@@ -36,6 +36,10 @@ class OutcomeController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            'name' => 'required|min:3|max:255',
+            'abbr' => 'required|min:2',
+        ]);
         $outcome = new Outcome;
         $outcome->create($request->all());
 
@@ -74,6 +78,10 @@ class OutcomeController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $request->validate([
+            'name' => 'required|min:3|max:255',
+            'abbr' => 'required|min:2',
+        ]);
         $outcome = Outcome::find($id);
         $outcome->update($request->all());
 

@@ -29,4 +29,6 @@ Route::resource('roles', 'RoleController');
 Route::resource('permissions', 'PermissionController');
 Route::resource('categories', 'CategoryController');
 Route::resource('outcomes', 'OutcomeController');
+;
 Route::get('leads/{category?}/{outcome?}', 'LeadsController@index')->name('leads');
+Route::post('leadcomments/post', 'LeadsController@storeComment')->name('storeComment');

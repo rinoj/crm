@@ -113,22 +113,22 @@ Leads
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         <h4 class="modal-title" id="myModalLabel">New Category</h4>
       </div>
-      <form id="myform">
-            <div class="modal-body">
+      <form action="{{route('storeComment')}}" method="post">
+            {{csrf_field()}}
+          <div class="modal-body">
                 <div class="form-group text-left {{ $errors->has('name') ? 'has-error' : '' }}"> 
                     
                     <input type="hidden" id="lead_id" name="lead_id"  class="lead_id" value="">
-                    <label>New Comment:</label>
-
-                    {!! Form::textarea('comment', null,['id' => 'comment', 'class' => 'form-control', 'rows' => '3']) !!}
+                    <label>Comment:</label>
+                    {!! Form::textarea('comment', null,['class' => 'form-control', 'rows' => '3']) !!}
                     
                 </div>
 
-            </div>
-            <div class="modal-footer">
-                <button class="btn btn-primary" id="ajaxSubmit" data-dismiss="modal">Save</button>
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary">Save</button>
+          </div>
       </form>
     </div>
   </div>
@@ -144,33 +144,23 @@ Leads
 
 @section('js')
 
-<script type="text/javascript">
-
-         $(document).ready(function(){
-            $('.comment').on('click', function(e) {
-              var modal = $('#myModal');
-                //modal.find('.modal-body #lead_id').val(this.dataset.leadid);
-                $('input[name="lead_id"]').val(this.dataset.leadid);
-                console.log(this.dataset.leadid);
-              });
-            $('#ajaxSubmit').click(function(e){
-               e.preventDefault();
-               $.ajaxSetup({
-                  headers: {
-                      'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
-                  }
-              });
-               $.ajax({
-                  url: "{{ url('/leadcomments/post') }}",
-                  method: 'post',
-                  data: {
-                     comment: jQuery('#comment').val(),
-                     lead_id: $('#lead_id').val(),
-                  },
-                  success: function(result){
-                    $('#comment').val("");
-                  }});
-               });
-            });
+<script>
+    $(document).ready(function() {
+      $('.comment').on('click', function(e) {
+        e.preventDefault();
+      var modal = $('#myModal');
+        //modal.find('.modal-body #lead_id').val(this.dataset.leadid);
+        $('input[name="lead_id"]').val(this.dataset.leadid);
+        console.log(this.dataset.leadid);
+      });
+    });
+     $('#myModal').on('show.bs.modal', function (event) {
+        alert('test')
+      var button = $(event.relatedTarget) 
+      var lead_id = button.data('leadid') 
+      var modal = $(this)
+      modal.find('.modal-body #lead_id').val(lead_id);
+      alert(lead_id);
+})
 </script>
 @endsection

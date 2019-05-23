@@ -17,14 +17,25 @@
         @csrf
 		    	
 		    	
-				<div class="form-group text-left">
+				<div class="form-group text-left {{ $errors->has('name') ? 'has-error' : '' }}">
 					<label>Name:</label>
 	                {!! Form::text('name', null,['class' => 'form-control', 'rows'=>'4']) !!}
+	                @if ($errors->has('name'))
+                        <span class="help-block">
+                            <strong>{{ $errors->first('name') }}</strong>
+                        </span>
+                    @endif
 				</div>
 
-				<div class="form-group text-left">
+				<div class="form-group text-left {{ $errors->has('prefix') ? 'has-error' : '' }}">
 					<label>Prefix:</label>
+
 	                {!! Form::text('prefix', null,['class' => 'form-control', 'rows'=>'4']) !!}
+	                @if ($errors->has('prefix'))
+                        <span class="help-block">
+                            <strong>{{ $errors->first('prefix') }}</strong>
+                        </span>
+                    @endif
 				</div>
 
 

@@ -23,19 +23,39 @@
  @method('PATCH')
         @csrf
 		    	
-		    	<div class="form-group text-left">
+		    	<div class="form-group text-left ">
 					<label>ID:</label>
 	                {!! Form::text('id', $user->id,['class' => 'form-control', 'rows'=>'4', 'disabled']) !!}
 				</div>
 
-				<div class="form-group text-left">
+				<div class="form-group text-left {{ $errors->has('name') ? 'has-error' : '' }}">
 					<label>Name:</label>
-	                {!! Form::text('name', $user->name,['class' => 'form-control', 'rows'=>'4']) !!}
+	                {!! Form::text('name', $user->name,['class' => 'form-control']) !!}
+	                @if ($errors->has('name'))
+			            <span class="help-block">
+			                <strong>{{ $errors->first('name') }}</strong>
+			            </span>
+			        @endif
 				</div>
 
-				<div class="form-group text-left">
+				<div class="form-group text-left {{ $errors->has('email') ? 'has-error' : '' }}">
 					<label>Email:</label>
-	                {!! Form::text('email', $user->email,['class' => 'form-control', 'rows'=>'4']) !!}
+	                {!! Form::text('email', $user->email,['class' => 'form-control']) !!}
+	                @if ($errors->has('email'))
+			            <span class="help-block">
+			                <strong>{{ $errors->first('email') }}</strong>
+			            </span>
+			        @endif
+				</div>
+
+				<div class="form-group text-left {{ $errors->has('password') ? 'has-error' : '' }}">
+					<label>Password:</label>
+	                {!! Form::text('password', null,['class' => 'form-control']) !!}
+	                @if ($errors->has('password'))
+			            <span class="help-block">
+			                <strong>{{ $errors->first('password') }}</strong>
+			            </span>
+			        @endif
 				</div>
 
 				<div class='form-group'>

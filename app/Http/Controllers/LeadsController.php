@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Lead;
+use Auth;
+use App\LeadComment;
 use App\Category;
 use App\Outcome;
 class LeadsController extends Controller
@@ -115,5 +117,16 @@ class LeadsController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function storeComment(Request $request){
+        
+        $comment = new LeadComment;
+        $comment->comment = $request->comment;
+        $comment->user_id = Auth::user()->id;
+        $comment->lead_id = $request->lead_id;
+        $comment->save();
+
+        return response()->json(['success'=>'Data is successfully added']);
     }
 }

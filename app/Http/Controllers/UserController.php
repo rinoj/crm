@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\User;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
+use Validator;
 use Auth;
 
 class UserController extends Controller
@@ -46,11 +47,14 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            'name' => 'required|min:3|max:255',
+            'email' => 'required|email|unique:users',
+            'password' => 'required|min:6',
+        ]);
         $user = new User;
         $roles = $request['roles']; //Retreive all roles
-        $user->create($request->all());
-
-        //dd($roles);
+        $user = User::create($request->all());
         if (isset($roles)) {        
             $user->roles()->sync($roles);  //If one or more role is selected associate user to roles          
         }        
@@ -94,6 +98,11 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $request->validate([
+            'name' => 'required|min:3|max:255',
+            'email' => 'required|email|unique:users,email,'.$id,
+            'password' => 'required|min:6',
+        ]);
         $user = User::find($id);
         $roles = $request['roles']; //Retreive all roles
         $user->update($request->all());

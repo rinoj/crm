@@ -20,13 +20,23 @@
 
         {{ Form::model($outcome, array('route' => array('outcomes.update', $outcome->id), 'method' => 'PUT')) }}
 
-        <div class="form-group">
-            {{ Form::label('name', 'Name') }}
+        <div class="form-group {{ $errors->has('name') ? 'has-error' : '' }}">
+            {{ Form::label('name', 'Name:') }}
             {{ Form::text('name', $outcome->name, array('class' => 'form-control')) }}
+            @if ($errors->has('name'))
+            <span class="help-block">
+                <strong>{{ $errors->first('name') }}</strong>
+            </span>
+        @endif
         </div>
-        <div class="form-group">
-            {{ Form::label('name', 'ABBR') }}
+        <div class="form-group {{ $errors->has('abbr') ? 'has-error' : '' }}">
+            {{ Form::label('abbr', 'ABBR:') }}
             {{ Form::text('abbr', $outcome->abbr, array('class' => 'form-control')) }}
+            @if ($errors->has('abbr'))
+            <span class="help-block">
+                <strong>{{ $errors->first('abbr') }}</strong>
+            </span>
+        @endif
         </div>
         
         <br>
