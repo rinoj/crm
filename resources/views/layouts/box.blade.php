@@ -11,7 +11,7 @@
     @yield('boxcontent')
   </div>
   <!-- /.box-body -->
-  <div class="box-footer">
+  <div class="box-footer clearfix">
     @yield('boxfooter')
   </div>
   <!-- box-footer -->

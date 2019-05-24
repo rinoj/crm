@@ -134,7 +134,6 @@
 
 @section('adminlte_js')
     <script src="{{ asset('vendor/adminlte/dist/js/adminlte.min.js') }}"></script>
-    <script src="{{asset('vendor/adminlte/vendor/jquery/dist/jquery.min.js')}}"></script>
     <script src="{{asset('vendor/adminlte/vendor/pace/pace.min.js')}}"></script>
     <script type="text/javascript">
       // To make Pace works on Ajax calls

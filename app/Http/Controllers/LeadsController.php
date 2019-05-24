@@ -135,21 +135,31 @@ class LeadsController extends Controller
 
     public function storeComment(Request $request)
     {
-        $comment = new LeadComment;
-        $comment->comment = $request->comment;
-        $comment->user_id = Auth::user()->id;
-        $comment->lead_id = $request->lead_id;
-        $comment->save();
-       
-        $lead = Lead::find($request->lead_id);
+        $validator = \Validator::make($request->all(), [
+            'comment' => 'required',
+        ]);
         
-        $count = $lead->comments->count();
-        //$leadcount = ->comments->count();
-        $data['comment'] = $comment;
-        $data['leadcount'] = $count;
 
-        echo json_encode($data);
-        exit;
+         if ($validator->passes()) {
+            $comment = new LeadComment;
+            $comment->comment = $request->comment;
+            $comment->user_id = Auth::user()->id;
+            $comment->lead_id = $request->lead_id;
+            $comment->save();
+           
+            $lead = Lead::find($request->lead_id);
+            
+            $count = $lead->comments->count();
+            //$leadcount = ->comments->count();
+            $data['comment'] = $comment;
+            $data['leadcount'] = $count;
+
+            return response()->json(['success' =>$data]);
+
+        }
+        return response()->json(['error'=>$validator->errors()->all()]);
+        // echo json_encode($data);
+        // exit;
     }
 
     public function changeOutcome(Request $request){
@@ -169,5 +179,20 @@ class LeadsController extends Controller
 
 
         return response()->json($lead->name. " has been set to ". $lead->user->name);
+    }
+    public function setLeads(Request $request){
+        
+        $checkboxes = $request->checkboxes;
+        if(!empty($checkboxes)){
+            $agent = $request->agent;
+            $cleardata = $request->input('cleardata');
+            foreach($checkboxes as $id){
+                $lead = Lead::find($id);
+                $lead->user_id = $agent;
+                $lead->update();
+            }
+            return response()->json("Leads has been set to id 2");
+        }
+        return response()->json("Please select leads to change.");
     }
 }

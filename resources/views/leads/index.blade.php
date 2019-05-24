@@ -71,7 +71,7 @@ Leads
                 <th>Lead of</th>
               @endif
               <th >Comment</th>
-              <th style="width: 200px">Action</th>
+              <th style="width: 260px">Action</th>
             </tr>
           </thead>
           <tbody>
@@ -83,7 +83,7 @@ Leads
                 <td>{{$lead->email}}</td>
                 @if(Auth::user()->isAdmin())
                     <td>
-                        <select class="setlead selectpicker form-control" id="{{$lead->id}}">
+                        <select class="setlead selectpicker form-control setleads{{$lead->id}}" id="{{$lead->id}}">
                         @if($lead->user == null)
                             <option value="">+</option>
                         @else
@@ -105,15 +105,16 @@ Leads
 
                 </td>
                 <td>
+                      
                     <select class="outcomeselect selectpicker" id="{{$lead->id}}">
                         @if($lead->outcome == null)
-                            <option value="" class="text-center">+</option>
+                            <option value="" class="">+</option>
                         @endif
                         @foreach($outcomes as $outcome)
                             <option value="{{$outcome->id}}" {{$lead->outcome_id == $outcome->id ? 'selected' : ''}}>{{$outcome->name}}</option>
                         @endforeach
                     </select>
-
+                    <input type="checkbox" class="pull-right checkBoxClass" name="leadselect" value="{{ $lead->id }}"/>
                 </td>
             </tr>
             @endforeach
@@ -151,11 +152,29 @@ Leads
 </div>
 
     @section('boxfooter')
-        {{$leads->links()}}
+    <div class="row">
+        <div class="col-md-6">
+            {{$leads->links()}}
+        </div>
+        <div class="col-md-2 col-md-offset-4 text-right">
+            <input type="checkbox" id="checkAll" /> Check All<br>
+            <select class="setagent form-control pull-right" style="width: 150px">
+                        @if($lead->user == null)
+                            <option value="">+</option>
+                        @else
+                            @foreach($users as $agent)
+                                <option value="{{$agent->id}}">{{$agent->name}}</option>
+                            @endforeach
+                        @endif
+                        </select>
+            <button class="btn btn-default" id="setleads">Set Leads</button>
+        </div>
+    </div>
     @endsection
     @endsection
     @include('layouts.box')
     </div>
+
 </div>
 @endsection
 
@@ -179,7 +198,53 @@ Leads
   "showMethod": "fadeIn",
   "hideMethod": "fadeOut"
 }
+$(document).ready(function () {
+    $("#checkAll").click(function () {
+        $(".checkBoxClass").prop('checked', $(this).prop('checked'));
+    });
     
+    $(".checkBoxClass").change(function(){
+        if (!$(this).prop("checked")){
+            $("#checkAll").prop("checked",false);
+        }
+    });
+});
+    
+$('#setleads').on('click', function(e) {
+    var checkedValues = $('input[name="leadselect"]:checked').map(function() {
+        return this.value;
+    }).get();
+    var selectedAgent = $('.setagent').val();
+    console.log(checkedValues.length);
+    $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+            }
+        });
+    $.ajax({
+        url: "{{route('setleads')}}",
+        method: 'POST',
+        data: {
+            checkboxes: checkedValues,
+            agent: selectedAgent,
+        },
+        success: function(data){
+            if(checkedValues.length > 0){
+                checkedValues.forEach(function(element) {
+                    $('.setleads'+element).val(selectedAgent);
+                });
+                toastr.success(data);
+                    $('.selectpicker').selectpicker('refresh');
+            }
+            else{
+                toastr.error(data);
+            }
+        },
+        complete: function(data) {
+            var dt = $.parseJSON(data.responseText)
+        }
+    });
+});
 $('.setlead').change(function(e){
     var lead_id = $(this).attr('id');
     $.ajaxSetup({
@@ -239,15 +304,26 @@ $(document).ready(function(){
         $.ajax({
             url: "{{ route('storeComment') }}",
             method: 'post',
+            dataType: 'json',
             data: {
                 comment: jQuery('#comment').val(),
                 lead_id: $('#lead_id').val(),
             },
-            success: function(response){
-                var obj = jQuery.parseJSON(response);
-                var cmt = obj.comment.comment;
-                $('.commentbox'+obj.comment.lead_id).html(cmt.substr(0, 50)+ " ("+obj.leadcount+")");
-                $('#comment').val("");
+            success: function(success){
+                //var obj = JSON.stringify(response);
+                if(success.success != null){
+                    var cmt = success.success.comment.comment;
+                    var leadcount = success.success.leadcount;
+                    var leadid = success.success.comment.lead_id;
+                    //console.log(response.leadcount);
+                    $('.commentbox'+leadid).html(cmt.substr(0, 50)+ " ("+leadcount+")");
+                    $('#comment').val("");
+                    toastr.success("Comment created");
+                }
+                else{
+
+                toastr.error('Please write a comment.'); // An array with all errors.
+                }
             },
             
         });

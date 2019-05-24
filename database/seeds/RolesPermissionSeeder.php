@@ -26,10 +26,19 @@ class RolesPermissionSeeder extends Seeder
             'name' => 'admin',
             'guard_name' => 'web',
         ]);
+
+        DB::table('roles')->insert([
+            'name' => 'agent',
+            'guard_name' => 'web',
+        ]);
         
         DB::table('role_has_permissions')->insert([
             'permission_id' => 1,
             'role_id' => 1,
+        ]);
+        DB::table('role_has_permissions')->insert([
+            'permission_id' => 2,
+            'role_id' => 2,
         ]);
 
         DB::table('role_has_permissions')->insert([
