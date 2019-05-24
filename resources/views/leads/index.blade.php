@@ -60,7 +60,7 @@ Leads
 <div class="row">
     <div class="col-md-12">
     @section('boxcontent')
-        <table class="table table-bordered">
+        <table class="table table-striped">
           <thead>
             <tr>
               <th style="width: 10px">ID</th>
@@ -106,8 +106,11 @@ Leads
                 </td>
                 <td>
                     <select class="outcomeselect selectpicker" id="{{$lead->id}}">
+                        @if($lead->outcome == null)
+                            <option value="" class="text-center">+</option>
+                        @endif
                         @foreach($outcomes as $outcome)
-                            <option value="{{$outcome->id}}" {{$lead->outcome->id == $outcome->id ? 'selected' : ''}}>{{$outcome->name}}</option>
+                            <option value="{{$outcome->id}}" {{$lead->outcome_id == $outcome->id ? 'selected' : ''}}>{{$outcome->name}}</option>
                         @endforeach
                     </select>
 
@@ -129,7 +132,6 @@ Leads
                 <div class="form-group text-left {{ $errors->has('name') ? 'has-error' : '' }}"> 
                     
                     <input type="hidden" id="lead_id" name="lead_id"  class="lead_id" value="">
-                    <label>New Comment:</label>
 
                     {!! Form::textarea('comment', null,['id' => 'comment', 'class' => 'form-control', 'rows' => '3']) !!}
                     
@@ -193,7 +195,7 @@ $('.setlead').change(function(e){
             lead_id: $(this).attr('id'),
         },
         success: function(data){
-            toastr.success('Lead '+data.name+' has been set to user!');
+            toastr.success(data);
         },
         complete: function(data) {
             var dt = $.parseJSON(data.responseText)
@@ -216,11 +218,8 @@ $('.outcomeselect').change(function(e){
             lead_id: $(this).attr('id'),
         },
         success: function(data){
-            toastr.success('Outcome has been set!');
+            toastr.success(data);
         },
-        complete: function(data) {
-            var dt = $.parseJSON(data.responseText)
-        }
     });
 });
 $(document).ready(function(){
@@ -244,14 +243,13 @@ $(document).ready(function(){
                 comment: jQuery('#comment').val(),
                 lead_id: $('#lead_id').val(),
             },
-            success: function(data){
-            },
-            complete: function(data) {
+            success: function(response){
+                var obj = jQuery.parseJSON(response);
+                var cmt = obj.comment.comment;
+                $('.commentbox'+obj.comment.lead_id).html(cmt.substr(0, 50)+ " ("+obj.leadcount+")");
                 $('#comment').val("");
-                toastr.success('Comment has been created!');
-                var dt = $.parseJSON(data.responseText)
-                $('.commentbox'+dt.lead_id).html(dt.comment.substring(0, 30));
-            }
+            },
+            
         });
     });
 });
@@ -279,8 +277,7 @@ function fetchRecords(id){
                 }
             }
             else{
-                var tr_str = "<tr>" + "<td align='center' colspan='4'>No record found.</td>" +
-                  "</tr>";
+                var tr_str = "<p>No comments found.</p>";
 
                 $(".listcomments").append(tr_str);
             }

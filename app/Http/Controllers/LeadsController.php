@@ -140,8 +140,16 @@ class LeadsController extends Controller
         $comment->user_id = Auth::user()->id;
         $comment->lead_id = $request->lead_id;
         $comment->save();
+       
+        $lead = Lead::find($request->lead_id);
+        
+        $count = $lead->comments->count();
+        //$leadcount = ->comments->count();
+        $data['comment'] = $comment;
+        $data['leadcount'] = $count;
 
-        return response()->json($comment);
+        echo json_encode($data);
+        exit;
     }
 
     public function changeOutcome(Request $request){
@@ -150,7 +158,7 @@ class LeadsController extends Controller
         $lead->update();
         $lead->setOutcome($request->outcome_id);
 
-        return response()->json($lead);
+        return response()->json($lead->name." has been set to ". $lead->outcome->name);
     }
 
     public function setLead(Request $request){
@@ -160,6 +168,6 @@ class LeadsController extends Controller
 
 
 
-        return response()->json($lead);
+        return response()->json($lead->name. " has been set to ". $lead->user->name);
     }
 }
