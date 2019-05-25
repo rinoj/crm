@@ -36,3 +36,5 @@ Route::get('leadcomment/{lead_id}', 'LeadsController@getLeadComments')->name('ge
 Route::post('leadoutcome', 'LeadsController@changeOutcome')->name('changeoutcome');
 Route::post('leadset', 'LeadsController@setLead')->name('setlead');
 Route::post('leadsset', 'LeadsController@setLeads')->name('setleads');
+
+Route::get('appointments', 'AppointmentController@index')->name('appointments');
