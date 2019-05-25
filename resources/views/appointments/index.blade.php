@@ -14,24 +14,24 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.2.7/fullcalendar.min.css"/>
     <style type="text/css">
     	/*new css with styling on a container div instead of the body*/
-.container {
-  position: relative;
-  width: 980px;
-  margin:0 auto;
-}
+	.container {
+	  	position: relative;
+	  	width: 980px;
+	  	margin:0 auto;
+	}
 
-#sample-menu{
-  position: absolute;
-  top: 109px;
-  left: 600px;
-}
-.fc-event {
-    border: 1px solid #3a87ad; /* default BORDER color */
-    background-color: #3a87ad; /* default BACKGROUND color */
-    color: #fff;               /* default TEXT color */
-    font-size: 1em;            /* EDIT HERE */
-    cursor: default;
-}
+	#sample-menu{
+	  	position: absolute;
+	  	top: 109px;
+	  	left: 600px;
+	}
+	.fc-event {
+	    border: 1px solid #3a87ad; /* default BORDER color */
+	    background-color: #3a87ad; /* default BACKGROUND color */
+	    color: #fff;               /* default TEXT color */
+	    font-size: 1em;            /* EDIT HERE */
+	    cursor: default;
+	}
 
     </style>
 @endsection
