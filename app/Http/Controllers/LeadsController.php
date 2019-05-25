@@ -153,6 +153,7 @@ class LeadsController extends Controller
             //$leadcount = ->comments->count();
             $data['comment'] = $comment;
             $data['leadcount'] = $count;
+            $data['leadname'] = $comment->lead->name;
 
             return response()->json(['success' =>$data]);
 
@@ -185,13 +186,14 @@ class LeadsController extends Controller
         $checkboxes = $request->checkboxes;
         if(!empty($checkboxes)){
             $agent = $request->agent;
+            $agentname = User::find($agent)->name;
             $cleardata = $request->input('cleardata');
             foreach($checkboxes as $id){
                 $lead = Lead::find($id);
                 $lead->user_id = $agent;
                 $lead->update();
             }
-            return response()->json("Leads has been set to id 2");
+            return response()->json("Leads has been set to ".$agentname);
         }
         return response()->json("Please select leads to change.");
     }

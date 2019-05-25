@@ -63,15 +63,15 @@ Leads
         <table class="table table-striped">
           <thead>
             <tr>
-              <th style="width: 10px">ID</th>
-              <th>Name</th>
-              <th>Phone</th>
-              <th>Email</th>
+              <th width="5%">ID</th>
+              <th width="10%">Name</th>
+              <th width="10%">Phone</th>
+              <th width="10%">Email</th>
               @if(Auth::user()->isAdmin())
-                <th>Lead of</th>
+                <th width="10%">Lead of</th>
               @endif
-              <th >Comment</th>
-              <th style="width: 260px">Action</th>
+              <th width="20%">Comment</th>
+              <th width="10%">Action</th>
             </tr>
           </thead>
           <tbody>
@@ -159,14 +159,10 @@ Leads
         <div class="col-md-2 col-md-offset-4 text-right">
             <input type="checkbox" id="checkAll" /> Check All<br>
             <select class="setagent form-control pull-right" style="width: 150px">
-                        @if($lead->user == null)
-                            <option value="">+</option>
-                        @else
-                            @foreach($users as $agent)
-                                <option value="{{$agent->id}}">{{$agent->name}}</option>
-                            @endforeach
-                        @endif
-                        </select>
+                @foreach($users as $agent)
+                    <option value="{{$agent->id}}">{{$agent->name}}</option>
+                @endforeach
+            </select>
             <button class="btn btn-default" id="setleads">Set Leads</button>
         </div>
     </div>
@@ -191,7 +187,7 @@ Leads
   "onclick": null,
   "showDuration": "300",
   "hideDuration": "1000",
-  "timeOut": "2000",
+  "timeOut": "3000",
   "extendedTimeOut": "1000",
   "showEasing": "swing",
   "hideEasing": "linear",
@@ -288,6 +284,8 @@ $('.outcomeselect').change(function(e){
     });
 });
 $(document).ready(function(){
+
+    var lastcommented = 0;
     $('.comment').on('click', function(e) {
         var modal = $('#myModal');
         //modal.find('.modal-body #lead_id').val(this.dataset.leadid);
@@ -315,10 +313,15 @@ $(document).ready(function(){
                     var cmt = success.success.comment.comment;
                     var leadcount = success.success.leadcount;
                     var leadid = success.success.comment.lead_id;
+                    var leadname = success.success.leadname;
                     //console.log(response.leadcount);
                     $('.commentbox'+leadid).html(cmt.substr(0, 50)+ " ("+leadcount+")");
                     $('#comment').val("");
-                    toastr.success("Comment created");
+                    toastr.success("Comment created for "+leadname);
+                    console.log(lastcommented);
+                    //$('.commentbox'+lastcommented).toggleClass('btn-info').toggleClass('btn-default');
+                    $('.commentbox'+leadid).toggleClass('btn-default').toggleClass('btn-info');
+                    lastcommented = leadid;
                 }
                 else{
 
