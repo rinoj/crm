@@ -3,7 +3,7 @@
 @section('title', 'Appointments')
 
 @section('boxtitle')
-    Create Category
+    Appointments
 @stop
 
 

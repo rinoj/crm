@@ -122,23 +122,52 @@ Leads
     </table>
 
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-  <div class="modal-dialog" role="document">
+  <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         <h4 class="modal-title" id="myModalLabel">New Comment</h4>
       </div>
       <form id="myform">
-            <div class="modal-body">
-                <div class="form-group text-left {{ $errors->has('name') ? 'has-error' : '' }}"> 
-                    
-                    <input type="hidden" id="lead_id" name="lead_id"  class="lead_id" value="">
-
-                    {!! Form::textarea('comment', null,['id' => 'comment', 'class' => 'form-control', 'rows' => '3']) !!}
-                    
-                    <div class="listcomments pre-scrollable">
+            <div class="modal-body row">
+                <div class="col-md-8">
+                    <div class="form-group text-left {{ $errors->has('name') ? 'has-error' : '' }}"> 
                         
+                        <input type="hidden" id="lead_id" name="lead_id"  class="lead_id" value="">
+
+                        {!! Form::textarea('comment', null,['id' => 'comment', 'class' => 'form-control', 'rows' => '3']) !!}
+                        
+                        <div class="listcomments pre-scrollable">
+                            
+                        </div>
                     </div>
+                </div>
+                <div class="col-md-4">
+                    <input type="checkbox" id="setappointment"> Set an appointment
+                    <div class="panel" id="appointmenttab" style="display: none">
+                        <div class="input-group">
+                            <div class="input-group-addon">
+                                <i class="fa fa-calendar"></i>
+                            </div>
+                            <input type="text" class="form-control pull-right" name="date" id="reservation" autocomplete="off">
+                        </div>
+                        <!-- /.input group -->
+                      
+                        <div class="bootstrap-timepicker">
+                            <div class="form-group">
+                                <label>Time picker:</label>
+
+                                <div class="input-group">
+                                    <div class="input-group-addon">
+                                        <i class="fa fa-clock-o"></i>
+                                    </div>
+                                <input type="text" class="form-control timepicker" name="time" id="time" autocomplete="off">
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                      
                 </div>
 
             </div>
@@ -194,6 +223,28 @@ Leads
   "showMethod": "fadeIn",
   "hideMethod": "fadeOut"
 }
+$('#reservation').datepicker({
+         minDate: +1,
+      autoclose: true
+    })
+
+    $('.timepicker').timepicker({
+      showInputs: false,
+        stepMinute: 15,
+      timeFormat: 'HH:mm',
+    })
+
+$(document).ready(function () {
+    $("#setappointment").change(function () {
+        $("#appointmenttab").fadeToggle();
+    });
+    
+    $(".checkBoxClass").change(function(){
+        if (!$(this).prop("checked")){
+            $("#checkAll").prop("checked",false);
+        }
+    });
+});
 $(document).ready(function () {
     $("#checkAll").click(function () {
         $(".checkBoxClass").prop('checked', $(this).prop('checked'));
@@ -306,6 +357,8 @@ $(document).ready(function(){
             data: {
                 comment: jQuery('#comment').val(),
                 lead_id: $('#lead_id').val(),
+                time: $('#time').val(),
+                date: $('#reservation').val(),
             },
             success: function(success){
                 //var obj = JSON.stringify(response);
@@ -317,11 +370,14 @@ $(document).ready(function(){
                     //console.log(response.leadcount);
                     $('.commentbox'+leadid).html(cmt.substr(0, 50)+ " ("+leadcount+")");
                     $('#comment').val("");
-                    toastr.success("Comment created for "+leadname);
+                    toastr.success(success.success.msg);
                     console.log(lastcommented);
                     //$('.commentbox'+lastcommented).toggleClass('btn-info').toggleClass('btn-default');
                     $('.commentbox'+leadid).toggleClass('btn-default').toggleClass('btn-info');
                     lastcommented = leadid;
+                    $('#reservation').val('');
+                    $('#appointmenttab').hide();
+                    $('#setappointment').prop('checked', false);
                 }
                 else{
 

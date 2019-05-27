@@ -8,6 +8,7 @@ class Appointment extends Model
 {
     protected $fillable = ['title','start_date','end_date'];
 	protected $dates = ['start_date', 'end_date'];
+	
     public function lead(){
         return $this->belongsTo('App\Lead');
     }

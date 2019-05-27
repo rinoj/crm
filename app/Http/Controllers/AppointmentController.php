@@ -23,7 +23,7 @@ class AppointmentController extends Controller
                 //dd($lead->lead->name),
                 $lead->lead->name,
                 false,
-                new \DateTime($lead->start_date->addHours(6)),
+                new \DateTime($lead->start_date),
                 new \DateTime($lead->end_date),
                 null,
                 [
@@ -47,5 +47,12 @@ class AppointmentController extends Controller
         }'
       ]);
       return view('appointments.index', compact('calendar'));
+    }
+
+    public function show($id){
+    	$appointment = Appointment::find($id);
+    	$lead = $appointment->lead;
+
+    	return view('appointments.show')->withLead($lead);
     }
 }

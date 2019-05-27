@@ -9,6 +9,8 @@ use App\User;
 use App\LeadComment;
 use App\Category;
 use App\Outcome;
+use Carbon\Carbon;
+use App\Appointment;
 class LeadsController extends Controller
 {
     /**
@@ -150,11 +152,23 @@ class LeadsController extends Controller
             $lead = Lead::find($request->lead_id);
             
             $count = $lead->comments->count();
-            //$leadcount = ->comments->count();
             $data['comment'] = $comment;
             $data['leadcount'] = $count;
             $data['leadname'] = $comment->lead->name;
-
+            $data['msg'] = "Comment created for ".$lead->name;
+            if(!empty($request->date)){
+                $start = date('Y-m-d H:i:s', strtotime("$request->date $request->time"));
+                $sd = Carbon::createFromFormat('Y-m-d H:i:s', $start);
+                $appointment = new Appointment;
+                $appointment->start_date = $sd;
+                $appointment->end_date = $start;
+                $appointment->title = $request->comment;
+                $appointment->lead_id = $request->lead_id;
+                $appointment->user_id = Auth::user()->id;
+                $appointment->save();
+                $data['msg'] = "Appointment set up for ".$lead->name;
+            }
+            //$leadcount = ->comments->count();
             return response()->json(['success' =>$data]);
 
         }

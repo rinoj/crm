@@ -44,6 +44,14 @@ class User extends Authenticatable
         return false;
     }
 
+    public function appointments(){
+        return $this->hasMany('App\Appointment');
+    }
+
+    public function leads(){
+        return $this->hasMany('App\Lead');
+    }
+
     public function setPasswordAttribute($password)
     {   
         $this->attributes['password'] = bcrypt($password);

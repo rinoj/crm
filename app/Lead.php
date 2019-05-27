@@ -16,6 +16,10 @@ class Lead extends Model
         return $this->hasMany('App\LeadComment');
     }
 
+    public function appointments(){
+        return $this->hasMany('App\Appointment');
+    }
+
     public function category(){
         return $this->belongsTo('App\Category');
     }
