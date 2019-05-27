@@ -214,7 +214,28 @@ class LeadsController extends Controller
         return response()->json("Please select leads to change.");
     }
 
-    public function export(){
-        return Excel::download(new LeadsExport, 'leads.xlsx');
+    public function export($category_id = null, $outcome_id = null){
+        if($category_id == null || $category_id == 'all'){
+            if($outcome_id != null){
+                $outcome = Outcome::find($outcome_id);
+                return Excel::download(new LeadsExport($category_id, $outcome_id), 'ALL - '.$outcome->name.'.xlsx');
+            }
+            else{
+                return Excel::download(new LeadsExport($category_id, $outcome_id), 'All.xlsx');
+            }
+        }
+        if($category_id != null){
+            $category = Category::find($category_id);
+            if($outcome_id != null){
+
+                $outcome = Outcome::find($outcome_id);
+                return Excel::download(new LeadsExport($category_id, $outcome_id), $category->name.' - '.$outcome->name.'.xlsx');
+            }
+            else{
+                return Excel::download(new LeadsExport($category_id, $outcome_id), $category->name.'.xlsx');
+            }
+        }
+        else
+            return Excel::download(new LeadsExport(null, null), 'All.xlsx');
     }
 }
