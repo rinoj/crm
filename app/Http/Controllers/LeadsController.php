@@ -11,6 +11,8 @@ use App\Category;
 use App\Outcome;
 use Carbon\Carbon;
 use App\Appointment;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\LeadsExport;
 class LeadsController extends Controller
 {
     /**
@@ -210,5 +212,9 @@ class LeadsController extends Controller
             return response()->json("Leads has been set to ".$agentname);
         }
         return response()->json("Please select leads to change.");
+    }
+
+    public function export(){
+        return Excel::download(new LeadsExport, 'leads.xlsx');
     }
 }

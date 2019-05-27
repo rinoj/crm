@@ -39,3 +39,5 @@ Route::post('leadsset', 'LeadsController@setLeads')->name('setleads');
 
 Route::get('appointments', 'AppointmentController@index')->name('appointments');
 Route::get('appointment/{id}', 'AppointmentController@show')->name('showappointment');
+
+Route::get('leadexport', 'LeadsController@export')->name('exportleads');

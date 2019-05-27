@@ -8,7 +8,7 @@ Leads
 
 @section('boxtitleright')
     @if(Auth::user()->isAdmin())
-        <a href="#" class="btn btn-success"> Import Leads</a>
+        <a href="{{route('exportleads')}}" class="btn btn-success"> Export Leads</a>
     @endif
 @endsection
 @section('content')
