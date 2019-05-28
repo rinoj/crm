@@ -14,8 +14,12 @@ class LeadsImport implements ToModel
     */
     public function model(array $row)
     {
-        return new Lead([
-            //
-        ]);
+        $lead = new Lead;
+        $lead->name = $row[1];
+        $lead->email = $row[2];
+        $lead->phone = $row[3];
+        $lead->outcome_id = 1;
+
+        return $lead;
     }
 }

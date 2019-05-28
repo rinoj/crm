@@ -41,3 +41,8 @@ Route::get('appointments', 'AppointmentController@index')->name('appointments');
 Route::get('appointment/{id}', 'AppointmentController@show')->name('showappointment');
 
 Route::get('leadexport/{id?}/{outcome?}', 'LeadsController@export')->name('exportleads');
+
+
+Route::get('leadsimport', 'LeadsController@import')->name('import');
+Route::post('leadsimport', 'LeadsController@importStore')->name('importstore');
+

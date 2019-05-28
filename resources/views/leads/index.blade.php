@@ -9,7 +9,7 @@ Leads
 @section('boxtitleright')
     @if(Auth::user()->isAdmin())
         <a href="{{route('exportleads', [$category_id, $outcome_id])}}" class="btn btn-success btn-sm"> Export</a>
-        <a href="{{route('exportleads', $category_id)}}" class="btn btn-success btn-sm"> Import</a>
+        <a href="{{route('import')}}" class="btn btn-success btn-sm"> Import</a>
     @endif
 @endsection
 @section('content')
@@ -87,6 +87,9 @@ Leads
                         <select class="setlead selectpicker form-control setleads{{$lead->id}}" id="{{$lead->id}}">
                         @if($lead->user == null)
                             <option value="">+</option>
+                            @foreach($users as $agent)
+                                <option value="{{$agent->id}}" >{{$agent->name}}</option>
+                            @endforeach
                         @else
                             @foreach($users as $agent)
                                 <option value="{{$agent->id}}" {{$agent->id == $lead->user->id ? 'selected' : ''}}>{{$agent->name}}</option>

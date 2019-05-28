@@ -13,6 +13,7 @@ use Carbon\Carbon;
 use App\Appointment;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\LeadsExport;
+use App\Imports\LeadsImport;
 class LeadsController extends Controller
 {
     /**
@@ -237,5 +238,15 @@ class LeadsController extends Controller
         }
         else
             return Excel::download(new LeadsExport(null, null), 'All.xlsx');
+    }
+
+    public function import(){
+        return view('import.index');
+    }
+
+    public function importStore(){
+        Excel::import(new LeadsImport,request()->file('file'));
+           
+        return back();
     }
 }
