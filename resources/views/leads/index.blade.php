@@ -8,8 +8,8 @@ Leads
 
 @section('boxtitleright')
     @if(Auth::user()->isAdmin())
-        <a href="{{route('exportleads', [$category_id, $outcome_id])}}" class="btn btn-success btn-sm"> Export</a>
-        <a href="{{route('import')}}" class="btn btn-success btn-sm"> Import</a>
+        <a href="{{route('exportleads', [$category_id, $outcome_id])}}" class="btn btn-default btn-sm"><i class="fa fa-download"></i> Export</a>
+        <a href="{{route('import')}}" class="btn btn-default btn-sm"><i class="fa fa-upload"></i> Import</a>
     @endif
 @endsection
 @section('content')
@@ -184,26 +184,26 @@ Leads
   </div>
 </div>
 
+
     @section('boxfooter')
-    <div class="row">
-        <div class="col-md-6">
+   <div class="pull-left" style="margin-top: 7px;">
             {{$leads->links()}}
-        </div>
-        <div class="col-md-2 col-md-offset-4 text-right">
-            <input type="checkbox" id="checkAll" /> Check All<br>
+    </div>
+    <div class="pull-right">
+        <input type="checkbox" id="checkAll" /> Check All</br>
             <select class="setagent form-control pull-right" style="width: 150px">
                 @foreach($users as $agent)
                     <option value="{{$agent->id}}">{{$agent->name}}</option>
                 @endforeach
             </select>
-            <button class="btn btn-default" id="setleads">Set Leads</button>
-        </div>
+            <br>
+            <br>
+            <button class="btn btn-default" id="setleads"><i class="fa fa-user"></i> Set Leads</button>
     </div>
     @endsection
     @endsection
     @include('layouts.box')
     </div>
-
 </div>
 @endsection
 
