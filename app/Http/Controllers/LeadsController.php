@@ -28,25 +28,47 @@ class LeadsController extends Controller
         $categories = Category::all();
         $outcomes = Outcome::all();
         $users = User::all();
+        $user = Auth::user();
         
         if($category_id == 'all' && $outcome_id != null){
-            $leads = Lead::where('outcome_id', $outcome_id)->paginate(50);
+            if($user->isAdmin())
+                $leads = Lead::where('outcome_id', $outcome_id)->paginate(50);
+            else
+                $leads = Lead::where('outcome_id', $outcome_id)->where('user_id', $user->id)->paginate(50);
+
         }
         else if($category_id != null && $outcome_id != null){
-            $leads = Lead::where('category_id', $category_id)->where('outcome_id', $outcome_id)->paginate(50);
+            if($user->isAdmin())
+                $leads = Lead::where('category_id', $category_id)->where('outcome_id', $outcome_id)->paginate(50);
+            else
+                $leads = Lead::where('category_id', $category_id)->where('outcome_id', $outcome_id)->where('user_id', $user->id)->paginate(50);
+
         }
         else if($category_id != null){
-            $leads = Lead::where('category_id', $category_id)->paginate(50);
+            if($user->isAdmin())
+                $leads = Lead::where('category_id', $category_id)->paginate(50);
+            else
+                $leads = Lead::where('category_id', $category_id)->where('user_id', $user->id)->paginate(50);
         }
         else if($outcome_id != null){
-            $leads = Lead::where('outcome_id', $outcome_id)->paginate(50);
+            if($user->isAdmin())
+                $leads = Lead::where('outcome_id', $outcome_id)->paginate(50);
+            else
+                $leads = Lead::where('outcome_id', $outcome_id)->where('user_id', $user->id)->paginate(50);
         }
         else if($category_id == 'all'){
-            $leads = Lead::paginate(50);
+            if($user->isAdmin())
+                $leads = Lead::paginate(50);
+            else
+                $leads = Lead::where('user_id', $user->id)->paginate(50);
+
         }
 
         else{
-            $leads = Lead::paginate(50);
+            if($user->isAdmin())
+                $leads = Lead::paginate(50);
+            else
+                $leads = Lead::where('user_id', $user->id)->paginate(50);
         }
 
         
