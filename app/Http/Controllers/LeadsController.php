@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Auth;
+use Session;
 use App\Lead;
 use App\User;
 use App\LeadComment;
@@ -14,6 +15,7 @@ use App\Appointment;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\LeadsExport;
 use App\Imports\LeadsImport;
+use Maatwebsite\Excel\HeadingRowImport;
 class LeadsController extends Controller
 {
     /**
@@ -280,12 +282,38 @@ class LeadsController extends Controller
     }
 
     public function import(){
+        $categories = Category::all();
+        $users = User::all();
         return view('import.index');
     }
 
-    public function importStore(){
-        Excel::import(new LeadsImport,request()->file('file'));
+    public function importStore(Request $request){
+            $headings = (new HeadingRowImport)->toArray(request()->file('file'));
+            $request->session()->put('headings', $headings);
+        //dd($headings[0][0]);
+        //dd($request->category);
+        //Excel::import(new LeadsImport($request->category, $request->user),request()->file('file'));
            
-        return back();
+        return redirect()->route('import2');
+    }
+
+    public function import2(){
+
+        $categories = Category::all();
+        $users = User::all();
+        if(!Session::has('headings'))
+            return redirect()->route('import');
+        
+        $headings = Session::get('headings');
+        Session::forget('headings');
+        return view('import.step2')
+                ->with('headings', $headings)
+                ->withUsers($users)
+                ->withCategories($categories);
+    }
+
+    public function importStore2(Request $request){
+        Excel::import(new LeadsImport($request->category, $request->user, $request->leadname, $request->leadphone, $request->leademail),request()->file('file'));
+        return redirect()->route('import');
     }
 }

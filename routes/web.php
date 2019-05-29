@@ -47,3 +47,6 @@ Route::get('leadexport/{id?}/{outcome?}', 'LeadsController@export')->name('expor
 Route::get('leadsimport', 'LeadsController@import')->name('import');
 Route::post('leadsimport', 'LeadsController@importStore')->name('importstore');
 
+Route::get('leadsimport2', 'LeadsController@import2')->name('import2');
+Route::post('leadsimport2', 'LeadsController@importStore2')->name('importstore2');
+

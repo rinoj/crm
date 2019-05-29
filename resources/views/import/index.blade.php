@@ -13,9 +13,15 @@
     	<div class="card-body">
             <form action="{{ route('importstore') }}" method="POST" enctype="multipart/form-data">
                 @csrf
-                <input type="file" name="file" class="form-control">
+                <div class="form-group">
+                    <input type="file" name="file" class="form-control">
+                
+                </div>
                 <br>
+              
+                <div class="form-group">
                 <button class="btn btn-success">Import Lead Data</button>
+            </div>
             </form>
         </div>
 	@endsection
