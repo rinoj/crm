@@ -80,7 +80,9 @@ Leads
               <tr>
                 <td>{{$lead->id}}</td>
                 <td>{{$lead->name}}</td>
-                <td>{{$lead->phone}}</td>
+                <td>
+                    {!!$lead->phone()!!}
+                </td>
                 <td>{{$lead->email}}</td>
                 @if(Auth::user()->isAdmin())
                     <td>

@@ -313,6 +313,8 @@ class LeadsController extends Controller
     }
 
     public function importStore2(Request $request){
+        
+        Session::forget('headings');
         Excel::import(new LeadsImport($request->category, $request->user, $request->leadname, $request->leadphone, $request->leademail),request()->file('file'));
         return redirect()->route('import');
     }

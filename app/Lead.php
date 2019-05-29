@@ -35,4 +35,12 @@ class Lead extends Model
     public function setOutcome($id){
         return $this->outcome_id = $id;
     }
+
+    public function phone(){
+        if(!$this->category->exists()){
+            return $this->category->prefix.''.$this->phone;
+        }else{
+            return '<a href="sip:'.$this->phone.'">'.$this->phone.'</a>';
+        }
+    }
 }
