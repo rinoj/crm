@@ -237,6 +237,23 @@ class LeadsController extends Controller
         return response()->json("Please select leads to change.");
     }
 
+    public function setCategory(Request $request){
+        
+        $checkboxes = $request->checkboxes;
+        if(!empty($checkboxes)){
+            $cat_id = $request->category_id;
+            $categoryname = Category::find($cat_id)->name;
+            $cleardata = $request->input('cleardata');
+            foreach($checkboxes as $id){
+                $lead = Lead::find($id);
+                $lead->category_id = $cat_id;
+                $lead->update();
+            }
+            return response()->json("Leads has been set to category ".$categoryname);
+        }
+        return response()->json("Please select leads to change category.");
+    }
+
     public function export($category_id = null, $outcome_id = null){
         if($category_id == null || $category_id == 'all'){
             if($outcome_id != null){

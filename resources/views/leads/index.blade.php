@@ -20,7 +20,7 @@ Leads
           <span class="info-box-icon bg-default"><i class="fa fa-users"></i></span>
           <div class="info-box-content">
             <span class="info-box-text">Leads</span>
-            <span class="info-box-number">{{$leads->count()}}</span>
+            <span class="info-box-number">{{$leads->total()}}</span>
           </div>
           <!-- /.info-box-content -->
         </div>
@@ -199,6 +199,14 @@ Leads
             <br>
             <br>
             <button class="btn btn-default" id="setleads"><i class="fa fa-user"></i> Set Leads</button>
+            <br><br>
+            <select class="setcategory form-control pull-right" style="width: 150px">
+                @foreach($categories as $category)
+                    <option value="{{$category->id}}">{{$category->name}}</option>
+                @endforeach
+            </select>
+            <br></br>
+            <button class="btn btn-default" id="setCategory"><i class="fa fa-align-center"></i> Set Category</button>
     </div>
     @endsection
     @endsection
@@ -260,7 +268,43 @@ $(document).ready(function () {
         }
     });
 });
-    
+
+$('#setCategory').on('click', function(e) {
+    var checkedValues = $('input[name="leadselect"]:checked').map(function() {
+        return this.value;
+    }).get();
+    var selectedCategory = $('.setcategory').val();
+    console.log(checkedValues.length);
+    $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+            }
+        });
+    $.ajax({
+        url: "{{route('setcategory')}}",
+        method: 'POST',
+        data: {
+            checkboxes: checkedValues,
+            category_id: selectedCategory,
+        },
+        success: function(data){
+            if(checkedValues.length > 0){
+                // checkedValues.forEach(function(element) {
+                //     $('.setleads'+element).val(selectedAgent);
+                // });
+                toastr.success(data);
+                    $('.selectpicker').selectpicker('refresh');
+            }
+            else{
+                toastr.error(data);
+            }
+        },
+        complete: function(data) {
+            var dt = $.parseJSON(data.responseText)
+        }
+    });
+});
+
 $('#setleads').on('click', function(e) {
     var checkedValues = $('input[name="leadselect"]:checked').map(function() {
         return this.value;
