@@ -188,10 +188,10 @@ Leads
 
 
     @section('boxfooter')
-   <div class="pull-left" style="margin-top: 7px;">
+   <div class="text-center" style="margin-top: 7px;">
             {{$leads->links()}}
     </div>
-    <div class="pull-right">
+    <div class="pull-right well">
         <input type="checkbox" id="checkAll" /> Check All</br>
             <select class="setagent form-control pull-right" style="width: 150px">
                 @foreach($users as $agent)

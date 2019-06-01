@@ -101,7 +101,7 @@ class UserController extends Controller
         $request->validate([
             'name' => 'required|min:3|max:255',
             'email' => 'required|email|unique:users,email,'.$id,
-            'password' => 'required|min:6',
+            'password' => 'sometimes|min:6',
         ]);
         $user = User::find($id);
         $roles = $request['roles']; //Retreive all roles

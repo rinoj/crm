@@ -132,22 +132,27 @@ return [
                 [
                     'text' => 'Users',
                     'url'  => 'users',
+                    'can'  => 'manage-users'
                 ],
                 [
                     'text' => 'Categories',
                     'url'  => 'categories',
+                    'can'  => 'manage-categories'
                 ],
                  [
                     'text' => 'Outcomes',
                     'url'  => 'outcomes',
+                    'can'  => 'manage-outcomes'
                 ],
                 [
                     'text' => 'Roles',
                     'url'  => 'roles',
+                    'can'  => 'manage-roles-permissions'
                 ],
                 [
                     'text' => 'Permissions',
                     'url'  => 'permissions',
+                    'can'  => 'manage-roles-permissions'
                 ],
             ],
         ],
