@@ -7,6 +7,8 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Spatie\Permission\Traits\HasRoles;
 
+use App\Appointment;
+use Carbon\Carbon;
 class User extends Authenticatable
 {
     use Notifiable,HasRoles;
@@ -55,5 +57,36 @@ class User extends Authenticatable
     public function setPasswordAttribute($password)
     {   
         $this->attributes['password'] = bcrypt($password);
+    }
+
+    public function todayappointmentscount(){
+        if($this->hasRole('admin')){
+            $appointments = Appointment::whereDate('created_at', Carbon::today())
+                ->where('end_date','>', Carbon::now())
+                ->count();
+        }
+        else{
+            $appointments = Appointment::where('user_id', $this->id)
+                ->whereDate('created_at', Carbon::today())
+                ->where('end_date','>', Carbon::now())
+                ->count();
+        }
+
+        return $appointments;
+    }
+
+    public function todayappointments(){
+       if($this->hasRole('admin')){
+            $appointments = Appointment::whereDate('created_at', Carbon::today())
+                ->where('end_date','>', Carbon::now())
+                ->get();
+        }
+        else{
+            $appointments = Appointment::where('user_id', $this->id)
+                ->whereDate('created_at', Carbon::today())
+                ->where('end_date','>', Carbon::now())
+                ->get();
+        }
+        return $appointments;
     }
 }

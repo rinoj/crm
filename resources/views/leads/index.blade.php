@@ -120,102 +120,105 @@ Leads
                             <option value="{{$outcome->id}}" {{$lead->outcome_id == $outcome->id ? 'selected' : ''}}>{{$outcome->name}}</option>
                         @endforeach
                     </select>
-                    <input type="checkbox" class="pull-right checkBoxClass" name="leadselect" value="{{ $lead->id }}"/>
+
+                    @can('manage-leads')
+                        <input type="checkbox" class="pull-right checkBoxClass" name="leadselect" value="{{ $lead->id }}"/>
+                    @endcan
                 </td>
             </tr>
             @endforeach
         </tbody>
     </table>
 
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-  <div class="modal-dialog modal-lg" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">New Comment</h4>
-      </div>
-      <form id="myform">
-            <div class="modal-body row">
-                <div class="col-md-8">
-                    <div class="form-group text-left {{ $errors->has('name') ? 'has-error' : '' }}"> 
-                        
-                        <input type="hidden" id="lead_id" name="lead_id"  class="lead_id" value="">
-
-                        {!! Form::textarea('comment', null,['id' => 'comment', 'class' => 'form-control', 'rows' => '3']) !!}
-                        
-                        <div class="listcomments pre-scrollable">
-                            
-                        </div>
-                    </div>
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">New Comment</h4>
                 </div>
-                <div class="col-md-4">
-                    <input type="checkbox" id="setappointment"> Set an appointment
-                    <div class="panel" id="appointmenttab" style="display: none">
-                        <div class="input-group">
-                            <div class="input-group-addon">
-                                <i class="fa fa-calendar"></i>
-                            </div>
-                            <input type="text" class="form-control pull-right" name="date" id="reservation" autocomplete="off">
-                        </div>
-                        <!-- /.input group -->
-                      
-                        <div class="bootstrap-timepicker">
-                            <div class="form-group">
-                                <label>Time picker:</label>
+                <form id="myform">
+                    <div class="modal-body row">
+                        <div class="col-md-8">
+                            <div class="form-group text-left {{ $errors->has('name') ? 'has-error' : '' }}"> 
+                            
+                                <input type="hidden" id="lead_id" name="lead_id"  class="lead_id" value="">
 
-                                <div class="input-group">
-                                    <div class="input-group-addon">
-                                        <i class="fa fa-clock-o"></i>
-                                    </div>
-                                <input type="text" class="form-control timepicker" name="time" id="time" autocomplete="off">
+                                {!! Form::textarea('comment', null,['id' => 'comment', 'class' => 'form-control', 'rows' => '3']) !!}
+                                
+                                <div class="listcomments pre-scrollable">
+                                    
                                 </div>
                             </div>
                         </div>
+                        <div class="col-md-4">
+                            <input type="checkbox" id="setappointment"> Set an appointment
+                            <div class="panel" id="appointmenttab" style="display: none">
+                                <div class="input-group">
+                                    <div class="input-group-addon">
+                                        <i class="fa fa-calendar"></i>
+                                    </div>
+                                    <input type="text" class="form-control pull-right" name="date" id="reservation" autocomplete="off">
+                                </div>
+                                <!-- /.input group -->
+                              
+                                <div class="bootstrap-timepicker">
+                                    <div class="form-group">
+                                        <label>Time picker:</label>
 
+                                        <div class="input-group">
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-clock-o"></i>
+                                            </div>
+                                        <input type="text" class="form-control timepicker" name="time" id="time" autocomplete="off">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                      
-                </div>
-
+                    <div class="modal-footer">
+                        <button class="btn btn-primary" id="ajaxSubmit" data-dismiss="modal">Save</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </form>
             </div>
-            <div class="modal-footer">
-                <button class="btn btn-primary" id="ajaxSubmit" data-dismiss="modal">Save</button>
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            </div>
-      </form>
+        </div>
     </div>
-  </div>
-</div>
 
 
     @section('boxfooter')
-   <div class="text-center" style="margin-top: 7px;">
+    <div class="text-center" style="margin-top: 7px;">
             {{$leads->links()}}
     </div>
-    <div class="pull-right well">
-        <input type="checkbox" id="checkAll" /> Check All</br>
-            <select class="setagent form-control pull-right" style="width: 150px">
-                @foreach($users as $agent)
-                    <option value="{{$agent->id}}">{{$agent->name}}</option>
-                @endforeach
-            </select>
-            <br>
-            <br>
-            <button class="btn btn-default" id="setleads"><i class="fa fa-user"></i> Set Leads</button>
-            <br><br>
-            <select class="setcategory form-control pull-right" style="width: 150px">
-                @foreach($categories as $category)
-                    <option value="{{$category->id}}">{{$category->name}}</option>
-                @endforeach
-            </select>
-            <br></br>
-            <button class="btn btn-default" id="setCategory"><i class="fa fa-align-center"></i> Set Category</button>
-    </div>
+        @can('manage-leads')
+        <div class="pull-right well">
+            <input type="checkbox" id="checkAll" /> Check All</br>
+                <select class="setagent form-control pull-right" style="width: 150px">
+                    @foreach($users as $agent)
+                        <option value="{{$agent->id}}">{{$agent->name}}</option>
+                    @endforeach
+                </select>
+                <br>
+                <br>
+                <button class="btn btn-default" id="setleads"><i class="fa fa-user"></i> Set Leads</button>
+                <br><br>
+                <select class="setcategory form-control pull-right" style="width: 150px">
+                    @foreach($categories as $category)
+                        <option value="{{$category->id}}">{{$category->name}}</option>
+                    @endforeach
+                </select>
+                <br></br>
+                <button class="btn btn-default" id="setCategory"><i class="fa fa-align-center"></i> Set Category</button>
+        </div>
+        @endcan
     @endsection
     @endsection
     @include('layouts.box')
     </div>
 </div>
 @endsection
+
 
 @section('js')
 

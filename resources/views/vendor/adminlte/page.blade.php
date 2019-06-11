@@ -59,12 +59,30 @@
                 <div class="navbar-custom-menu">
 
                     <ul class="nav navbar-nav">
-                        <li>
-                            <a href="#">
-                                <i class="fa fa-fw fa-calendar"></i> Appointments
-                            </a>
-                           
-                        </li>
+                        <li class="dropdown notifications-menu">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <i class="fa fa-calendar"></i>&nbsp; Appointments
+                            &nbsp; <span class="label label-success">{{Auth::user()->todayappointmentscount() != 0 ? Auth::user()->todayappointmentscount() : ''}}</span>
+                        </a>
+                        <ul class="dropdown-menu" style="width: auto !important" >
+                            <li class="header">{{Auth::user()->todayappointmentscount()}} appointments today</li>
+                            <li>
+                                <!-- inner menu: contains the actual data -->
+                                <ul class="menu">
+                                    @foreach(Auth::user()->todayappointments()->sortBy('start_date') as $appointment)
+                                    <li>
+                                        <a href="{{route('showappointment', $appointment->id)}}">
+                                          <i class="fa fa-user text-success"></i> {{$appointment->lead->name}}  ({{$appointment->start_date->addHours(6)->format('H:i')}} - {{$appointment->end_date->addHours(6)->format('H:i')}}) @hasrole('admin') (Agent: {{$appointment->lead->user->name}}) @endhasrole
+                                        </a>
+                                        
+                                    </li>
+                                    @endforeach
+                                </ul>
+                            </li>
+                            <li class="footer"><a href="{{route('appointments')}}">View all</a></li>
+                        </ul>
+                    </li>
+                        
                         <li>
                             @if(config('adminlte.logout_method') == 'GET' || !config('adminlte.logout_method') && version_compare(\Illuminate\Foundation\Application::VERSION, '5.3.0', '<'))
                                 <a href="{{ url(config('adminlte.logout_url', 'auth/logout')) }}">

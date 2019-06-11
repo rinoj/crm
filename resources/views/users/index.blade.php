@@ -33,6 +33,7 @@
     			<th style="width: 10px">ID</th>
     			<th>Name</th>
     			<th>Email</th>
+                <th>Group(s)</th>
     			<th>Action</th>
     		</tr>
     	</thead>
@@ -42,6 +43,11 @@
     				<td>{{$user->id}}</td>
     				<td>{{$user->name}}</td>
     				<td>{{$user->email}}</td>
+                    <td>
+                        @foreach($user->roles as $role)
+                            <label class="label label-default">{{$role->name}}</label>
+                        @endforeach
+                    </td>
     				<td>
     					<a href="{{route('users.edit', $user->id)}}" class="btn btn-info pull-left" style="margin-right: 3px;"><i class="fa fa-edit"></i> Edit User</a>
 

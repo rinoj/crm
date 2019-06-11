@@ -22,7 +22,7 @@ Auth::routes(['register' => false]);
 //Route::resource('leads', 'Lead\LeadController');
 
 
-Route::group(['middleware' => ['permission:view-admin']], function () {
+Route::group(['middleware' => ['permission:view-crm']], function () {
 	Route::get('home', 'HomeController@index')->name('index');
 });
 
