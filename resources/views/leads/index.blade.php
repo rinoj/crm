@@ -475,7 +475,7 @@ function fetchRecords(id){
 
 $(document).ready(function() {
     $('#leadstable').DataTable({
-        "pageLength": 25,
+        "pageLength": 50,
         "autoWidth": false,
     });
 } );
