@@ -34,43 +34,43 @@ class LeadsController extends Controller
         
         if($category_id == 'all' && $outcome_id != null){
             if($user->isAdmin())
-                $leads = Lead::where('outcome_id', $outcome_id)->paginate(50);
+                $leads = Lead::where('outcome_id', $outcome_id)->get();
             else
-                $leads = Lead::where('outcome_id', $outcome_id)->where('user_id', $user->id)->paginate(50);
+                $leads = Lead::where('outcome_id', $outcome_id)->where('user_id', $user->id)->get();
 
         }
         else if($category_id != null && $outcome_id != null){
             if($user->isAdmin())
-                $leads = Lead::where('category_id', $category_id)->where('outcome_id', $outcome_id)->paginate(50);
+                $leads = Lead::where('category_id', $category_id)->where('outcome_id', $outcome_id)->get();
             else
-                $leads = Lead::where('category_id', $category_id)->where('outcome_id', $outcome_id)->where('user_id', $user->id)->paginate(50);
+                $leads = Lead::where('category_id', $category_id)->where('outcome_id', $outcome_id)->where('user_id', $user->id)->get();
 
         }
         else if($category_id != null){
             if($user->isAdmin())
-                $leads = Lead::where('category_id', $category_id)->paginate(50);
+                $leads = Lead::where('category_id', $category_id)->get();
             else
-                $leads = Lead::where('category_id', $category_id)->where('user_id', $user->id)->paginate(50);
+                $leads = Lead::where('category_id', $category_id)->where('user_id', $user->id)->get();
         }
         else if($outcome_id != null){
             if($user->isAdmin())
-                $leads = Lead::where('outcome_id', $outcome_id)->paginate(50);
+                $leads = Lead::where('outcome_id', $outcome_id)->get();
             else
-                $leads = Lead::where('outcome_id', $outcome_id)->where('user_id', $user->id)->paginate(50);
+                $leads = Lead::where('outcome_id', $outcome_id)->where('user_id', $user->id)->get();
         }
         else if($category_id == 'all'){
             if($user->isAdmin())
-                $leads = Lead::paginate(50);
+                $leads = Lead::get();
             else
-                $leads = Lead::where('user_id', $user->id)->paginate(50);
+                $leads = Lead::where('user_id', $user->id)->get();
 
         }
 
         else{
             if($user->isAdmin())
-                $leads = Lead::paginate(50);
+                $leads = Lead::get();
             else
-                $leads = Lead::where('user_id', $user->id)->paginate(50);
+                $leads = Lead::where('user_id', $user->id)->get();
         }
 
         
@@ -315,7 +315,7 @@ class LeadsController extends Controller
     public function importStore2(Request $request){
         
         Session::forget('headings');
-        Excel::import(new LeadsImport($request->category, $request->user, $request->leadname, $request->leadphone, $request->leademail),request()->file('file'));
+        Excel::import(new LeadsImport($request->category, $request->user, $request->leadname,$request->phonecode, $request->leadphone, $request->leademail, $request->leadcomment),request()->file('file'));
         return redirect()->route('import');
     }
 }

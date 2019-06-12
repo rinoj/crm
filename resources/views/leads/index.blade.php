@@ -20,7 +20,7 @@ Leads
           <span class="info-box-icon bg-default"><i class="fa fa-users"></i></span>
           <div class="info-box-content">
             <span class="info-box-text">Leads</span>
-            <span class="info-box-number">{{$leads->total()}}</span>
+            <span class="info-box-number">{{$leads->count()}}</span>
           </div>
           <!-- /.info-box-content -->
         </div>
@@ -61,7 +61,7 @@ Leads
 <div class="row">
     <div class="col-md-12">
     @section('boxcontent')
-        <table class="table table-striped">
+        <table id="leadstable" class="table table-striped">
           <thead>
             <tr>
               <th width="5%">ID</th>
@@ -189,7 +189,6 @@ Leads
 
     @section('boxfooter')
     <div class="text-center" style="margin-top: 7px;">
-            {{$leads->links()}}
     </div>
         @can('manage-leads')
         <div class="pull-right well">
@@ -223,6 +222,7 @@ Leads
 @section('js')
 
 <script type="text/javascript">
+
     toastr.options = {
   "closeButton": false,
   "debug": false,
@@ -472,5 +472,12 @@ function fetchRecords(id){
         }
     });
 }
+
+$(document).ready(function() {
+    $('#leadstable').DataTable({
+        "pageLength": 25,
+        "autoWidth": false,
+    });
+} );
 </script>
 @endsection

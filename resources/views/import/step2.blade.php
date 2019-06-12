@@ -37,8 +37,27 @@
                 </div>
 
                 <div class="form-group">
+                    <label>Phone Code:</label>
+                    <select class="setcategory form-control" name="phonecode" >
+                        <option></option>
+                        @foreach($headings[0][0] as $heading)
+                            <option value="{{$heading}}">{{$heading}}</option>
+                        @endforeach
+                    </select>
+                </div>
+
+                <div class="form-group">
                     <label>Lead Phone:</label>
                     <select class="setcategory form-control" name="leadphone" >
+                        @foreach($headings[0][0] as $heading)
+                            <option value="{{$heading}}">{{$heading}}</option>
+                        @endforeach
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Lead Comment:</label>
+                    <select class="setcategory form-control" name="leadcomment" >
                         @foreach($headings[0][0] as $heading)
                             <option value="{{$heading}}">{{$heading}}</option>
                         @endforeach
