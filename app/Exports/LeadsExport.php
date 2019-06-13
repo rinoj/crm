@@ -5,8 +5,10 @@ namespace App\Exports;
 use App\Lead;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\FromQuery;
+use Maatwebsite\Excel\Concerns\WithMapping;
+use Maatwebsite\Excel\Concerns\WithHeadings;
 
-class LeadsExport implements FromQuery
+class LeadsExport implements FromQuery, WithMapping, WithHeadings
 {
     /**
     * @return \Illuminate\Support\Collection
@@ -35,6 +37,30 @@ class LeadsExport implements FromQuery
         else{
             $this->allcat = true;
         }
+    }
+
+    public function headings(): array
+    {
+        return [
+            'name',
+            'phone',
+            'email',
+            'comment',
+            'user',
+            'usercode',
+        ];
+    }
+
+    public function map($lead): array
+    {
+        return [
+            $lead->name,
+            $lead->phone,
+            $lead->email,
+            $lead->comments->last()['comment'],
+            $lead->user->name,
+            $lead->user->code,
+        ];
     }
 
     public function query()

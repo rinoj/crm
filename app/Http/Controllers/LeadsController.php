@@ -315,7 +315,16 @@ class LeadsController extends Controller
     public function importStore2(Request $request){
         
         Session::forget('headings');
-        Excel::import(new LeadsImport($request->category, $request->user, $request->leadname,$request->phonecode, $request->leadphone, $request->leademail, $request->leadcomment),request()->file('file'));
+//      dd($request->duplicates == true ? 'yes' : 'no');
+        $import = new LeadsImport($request->category, $request->user, $request->leadname,$request->phonecode, $request->leadphone, $request->leademail, $request->leadcomment, $request->loadagents,$request->duplicate);
+        $importduplicates = new LeadsImport($request->category, $request->user, $request->leadname,$request->phonecode, $request->leadphone, $request->leademail, $request->leadcomment, null,$request->duplicates);
+        if($request->loadagentscheck){
+            Excel::import($import,request()->file('file'));
+            Session::flash('success','Total: '.$import->getTotal().' | Inserted: '.$import->getCount().' | Duplicates: ', $import->getDuplicates());
+        }else{
+            Excel::import($importduplicates,request()->file('file'));
+            Session::flash('success','Total: '.$importduplicates->getTotal().' | Inserted: '.$importduplicates->getCount().' | Duplicates: ', $importduplicates->getDuplicates());
+        }
         return redirect()->route('import');
     }
 }

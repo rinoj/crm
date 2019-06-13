@@ -11,6 +11,9 @@
 	<div class="col-md-6 col-md-offset-3">
 	@section('boxcontent')
     	<div class="card-body">
+            @if(Session::has('success'))
+                <p class="alert alert-info">{{ Session::get('success') }}</p>
+            @endif
             <form action="{{ route('importstore') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="form-group">
@@ -26,8 +29,6 @@
         </div>
 	@endsection
 
-	@section('boxtitleright')
-	@endsection
 	@include('layouts.box')
 	</div>
 </div>

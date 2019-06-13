@@ -58,6 +58,16 @@
 			        @endif
 				</div>
 
+				<div class="form-group text-left {{ $errors->has('code') ? 'has-error' : '' }}">
+					<label>Code:</label>
+	                {!! Form::text('code', $user->code,['class' => 'form-control']) !!}
+	                @if ($errors->has('code'))
+			            <span class="help-block">
+			                <strong>{{ $errors->first('code') }}</strong>
+			            </span>
+			        @endif
+				</div>
+
 				<div class='form-group'>
 					<label>Role:</label>
 					<br>

@@ -107,10 +107,12 @@ class UserController extends Controller
 
         $user->name = $request->name;
         $user->email = $request->email;
+        $user->code = $request->code;
         if(isset($request->password)){
             $user->password = $request->password;
         }
 
+        $user->update();
         //dd($roles);
         if (isset($roles)) {        
             $user->roles()->sync($roles);  //If one or more role is selected associate user to roles          
