@@ -78,7 +78,11 @@ Leads
           <tbody>
             @foreach($leads as $lead)
               <tr>
-                <td>{{$lead->id}}</td>
+                <td>@can('manage-leads')
+                        <input type="checkbox" class="pull-right checkBoxClass" name="leadselect" value="{{ $lead->id }}"/>
+                    @endcan
+                    {{$lead->id}}
+                </td>
                 <td>{{$lead->name}}</td>
                 <td>
                     {!!$lead->phone()!!}
@@ -121,9 +125,6 @@ Leads
                         @endforeach
                     </select>
 
-                    @can('manage-leads')
-                        <input type="checkbox" class="pull-right checkBoxClass" name="leadselect" value="{{ $lead->id }}"/>
-                    @endcan
                 </td>
             </tr>
             @endforeach
@@ -263,14 +264,34 @@ $(document).ready(function () {
     });
 });
 $(document).ready(function () {
-    $("#checkAll").click(function () {
-        $(".checkBoxClass").prop('checked', $(this).prop('checked'));
+    // $("#checkAll").click(function () {
+    //     $(".checkBoxClass").prop('checked', $(this).prop('checked'));
+    // });
+    
+    // $(".checkBoxClass").change(function(){
+    //     if (!$(this).prop("checked")){
+    //         $("#checkAll").prop("checked",false);
+    //     }
+    // });
+
+    var checkAll = $('#checkAll');
+    var checkboxes = $('input.checkBoxClass');
+    
+    checkAll.on('ifChecked ifUnchecked', function(event) {        
+        if (event.type == 'ifChecked') {
+            checkboxes.iCheck('check');
+        } else {
+            checkboxes.iCheck('uncheck');
+        }
     });
     
-    $(".checkBoxClass").change(function(){
-        if (!$(this).prop("checked")){
-            $("#checkAll").prop("checked",false);
+    checkboxes.on('ifChanged', function(event){
+        if(checkboxes.filter(':checked').length == checkboxes.length) {
+            checkAll.prop('checked', 'checked');
+        } else {
+            checkAll.removeProp('checked');
         }
+        checkAll.iCheck('update');
     });
 });
 
