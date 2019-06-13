@@ -253,7 +253,7 @@ $('#reservation').datepicker({
     })
 
 $(document).ready(function () {
-    $("#setappointment").change(function () {
+    $("#setappointment").on('ifChecked ifUnchecked', function () {
         $("#appointmenttab").fadeToggle();
     });
     
@@ -450,8 +450,8 @@ $(document).ready(function(){
                     $('.commentbox'+leadid).toggleClass('btn-default').toggleClass('btn-info');
                     lastcommented = leadid;
                     $('#reservation').val('');
+                    $('#setappointment').iCheck('uncheck');;
                     $('#appointmenttab').hide();
-                    $('#setappointment').prop('checked', false);
                 }
                 else{
 
