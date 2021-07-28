@@ -118,6 +118,11 @@ return [
             'text'        => 'Leads',
             'url'         => 'leads',
             'icon'        => 'users',
+        ], 
+        [
+            'text'        => 'Offices',
+            'url'         => 'offices',
+            'icon'        => 'building',
         ],
         [
             'text'        => 'Appointments',

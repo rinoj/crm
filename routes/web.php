@@ -24,6 +24,8 @@ Auth::routes(['register' => false]);
 
 Route::group(['middleware' => ['permission:view-crm']], function () {
 	Route::get('home', 'HomeController@index')->name('index');
+	Route::get('offices', 'OfficeController@index')->name('offices.index');
+	Route::get('offices/{id}', 'OfficeController@show')->name('offices.show');
 });
 
 Route::group(['middleware' => ['permission:manage-users']], function () {
